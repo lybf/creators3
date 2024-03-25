@@ -40,7 +40,7 @@ public class CT3InfoDialog {
 //                   table.add(TZ).left().growX().wrap().width(620).maxWidth(620).pad(4).labelAlign(Align.left);
 //                   table.row();
 
-                table.add(MODname + "[][#88ff6e] " + version + "[]" + " _更新内容:").left().growX().wrap().width(620).maxWidth(620).pad(4).labelAlign(Align.left);
+                table.add(version + "[]" + " _更新内容:").left().growX().wrap().width(620).maxWidth(620).pad(4).labelAlign(Align.left);
                 table.row();
 
                 table.add(Core.bundle.format("ct3-update")).left().growX().wrap().width(620).maxWidth(620).pad(4).labelAlign(Align.left);

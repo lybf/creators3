@@ -4,9 +4,7 @@ package ct.content.chapter4;
 import arc.graphics.Color;
 import ct.Asystem.type.MultiCrafter.CT3_MultiCrafter;
 import ct.Asystem.type.MultiCrafter.CreatorsRecipe;
-import ct.Asystem.type.oldUnitFactory;
 import mindustry.content.Items;
-import mindustry.content.UnitTypes;
 import mindustry.gen.Sounds;
 import mindustry.type.Category;
 import mindustry.type.ItemStack;
@@ -19,26 +17,12 @@ import static mindustry.type.ItemStack.with;
 public class ItemsSMC {
     public static Block
             资源合成台0, 资源合成台1, 资源合成台2, 资源合成台3, 资源采集站;
-    public static oldUnitFactory
-            unitTypee, 单位工厂测试;
+
 
     public static void load() {
 
 
-        单位工厂测试 = new oldUnitFactory("单位工厂测试") {{
-            unitType = new UnitPlan(
-                    UnitTypes.dagger, 60f * 5,
-                    with(Items.silicon, 10, Items.lead, 10)
-            );
-            requirements(Category.units, with(Items.silicon, 10, Items.lead, 10));
-            maxunit = 4;
-            size = 4;
-            hasPower = true;
-            health = 400;
-            consumePower(150f / 60f);
 
-        }};
-        //单位工厂测试=new oldUnitFactory("单位工厂测试"){{}};
 
 
         资源合成台0 = new CT3_MultiCrafter("初始合成台", 26) {{

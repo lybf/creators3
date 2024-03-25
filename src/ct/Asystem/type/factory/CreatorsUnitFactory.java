@@ -55,7 +55,7 @@ public class CreatorsUnitFactory extends UnitBlock {
     public int unitLimit = 5;
     public int[] capacities = {};
 
-    public Seq<UnitFactory.UnitPlan> plans = new Seq<>(4);
+    public Seq<UnitPlan> plans = new Seq<>(4);
 
     public CreatorsUnitFactory(String name) {
         this(name, 8);//default
@@ -102,7 +102,7 @@ public class CreatorsUnitFactory extends UnitBlock {
     @Override
     public void init() {
         capacities = new int[Vars.content.items().size];
-        for (UnitFactory.UnitPlan plan : plans) {
+        for (UnitPlan plan : plans) {
             for (ItemStack stack : plan.requirements) {
                 capacities[stack.item.id] = Math.max(capacities[stack.item.id], stack.amount * 2);
                 itemCapacity = Math.max(itemCapacity, stack.amount * 2);
@@ -188,6 +188,21 @@ public class CreatorsUnitFactory extends UnitBlock {
         Draw.rect(topRegion, plan.drawx(), plan.drawy());
     }
 
+    public static class UnitPlan {
+        public UnitType unit;
+        public ItemStack[] requirements;
+        public float time;
+
+        public UnitPlan(UnitType unit, float time, ItemStack[] requirements) {
+            this.unit = unit;
+            this.time = time;
+            this.requirements = requirements;
+        }
+
+        UnitPlan() {
+        }
+    }
+
     public class CreatorsUnitFactoryBuild extends UnitBuild {
         public int unitCount = unitLimit;
 
@@ -258,7 +273,7 @@ public class CreatorsUnitFactory extends UnitBlock {
             Draw.rect(outRegion, x, y, rotdeg());
 
             if (currentPlan != -1) {
-                UnitFactory.UnitPlan plan = plans.get(currentPlan);
+                UnitPlan plan = plans.get(currentPlan);
                 Draw.draw(Layer.blockOver, () -> Drawf.construct(this, plan.unit, rotdeg() - 90f, progress / plan.time, speedScl, time));
             }
 
@@ -293,7 +308,7 @@ public class CreatorsUnitFactory extends UnitBlock {
             moveOutPayload();
 
             if (currentPlan != -1 && payload == null) {
-                UnitFactory.UnitPlan plan = plans.get(currentPlan);
+                UnitPlan plan = plans.get(currentPlan);
 
                 //make sure to reset plan when the unit got banned after placement
                 if (plan.unit.isBanned()) {

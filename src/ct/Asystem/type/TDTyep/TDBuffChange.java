@@ -48,7 +48,7 @@ public class TDBuffChange {
 
             @Override
             public void updateTile() {
-                Vars.state.teams.present.forEach(teamData -> teamData.units.forEach(unit -> unit.apply(Buff, 60)));
+                Vars.state.teams.present.select(teamData -> teamData.team != Vars.state.rules.defaultTeam).forEach(teamData -> teamData.units.forEach(unit -> unit.apply(Buff, 60)));
             }
         }
     }
@@ -81,7 +81,7 @@ public class TDBuffChange {
 
             @Override
             public void updateTile() {
-                Vars.state.teams.present.forEach(teamData -> teamData.units.forEach(unit -> unit.apply(Buff, 60)));
+                Vars.state.teams.present.select(teamData -> teamData.team != Vars.state.rules.defaultTeam).forEach(teamData -> teamData.units.forEach(unit -> unit.apply(Buff, 60)));
             }
         }
     }
@@ -114,7 +114,7 @@ public class TDBuffChange {
 
             @Override
             public void updateTile() {
-                Vars.state.teams.present.forEach(teamData -> teamData.units.forEach(unit -> unit.apply(Buff, 60)));
+                Vars.state.teams.present.select(teamData -> teamData.team != Vars.state.rules.defaultTeam).forEach(teamData -> teamData.units.forEach(unit -> unit.apply(Buff, 60)));
             }
         }
     }

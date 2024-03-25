@@ -71,6 +71,7 @@ public class SourceCodeModification_Sandbox {
                     lowAltitude = false;// 子弹/特效在单位上面显示
                     envEnabled = Env.any;
                     flying = true;
+                    drag = 0.1f;
                     buildSpeed = 20f;
                     speed = 8f;
                     rotateSpeed = 15f;

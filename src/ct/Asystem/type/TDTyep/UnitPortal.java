@@ -2,7 +2,9 @@ package ct.Asystem.type.TDTyep;
 
 import arc.graphics.Color;
 import arc.graphics.g2d.Draw;
+import arc.graphics.g2d.Fill;
 import arc.graphics.g2d.Lines;
+import arc.math.Angles;
 import arc.math.Mathf;
 import arc.struct.ObjectMap;
 import arc.util.Time;
@@ -30,7 +32,7 @@ public class UnitPortal extends Block {
     //传送以后给单位加个免疫传送的状态，在这个状态的持续时间里，无法被计入传送
     public static StatusEffect TransferEffect;
     //状态时间 600正常等于10秒
-    public float TransferEffectTime = 10 * 60f;
+    public float TransferEffectTime = 600;
 
     static final Stat StatLinkRange;
     static final Stat StatUnitRange;
@@ -42,23 +44,14 @@ public class UnitPortal extends Block {
         StatTransferSpeed = new Stat("StatTransferSpeed");
 
         TransferEffect = new StatusEffect("immuneTransfer") {
-            {
-                show = false;
-            }
-
             public void update(Unit unit, float time) {
             }
 
-            @Override
+   /*         @Override
             public void draw(Unit unit) {
-                float brcx = unit.x + (unit.hitSize() / 2f) - (tilesize / 2f);
-                brcx = unit.x;
-                float brcy = unit.y - (unit.hitSize() / 2f) - (tilesize / 2f);
-                brcy = unit.y;
-
-                //Draw.z(Layer.flyingUnit + 1);
-                // Draw.rect("ct-immuneTransfer", brcx, brcy, tilesize + unit.hitSize() / 2, tilesize + unit.hitSize() / 2);
-            }
+                Draw.z(Layer.flyingUnit + 1);
+                Draw.rect("ct-immuneTransfer", unit.x, unit.y, tilesize + unit.hitSize() / 2, tilesize + unit.hitSize() / 2);
+            }*/
         };
     }
 
@@ -70,7 +63,7 @@ public class UnitPortal extends Block {
     public float UnitRange = 8;
 
     //传送时间 默认60一秒
-    public float TransferSpeed = 1 * 60;
+    public float TransferSpeed = 60;
 
     //t 为 全体传送 传送时间到了就传送
     //f 为 单体传送 每一个单位进入传送范围单独计算时间 到了就传送
@@ -80,7 +73,6 @@ public class UnitPortal extends Block {
     //f 为 传送以后单位在传送点的相对位置
     public boolean TransferType = true;
 
-    Color CC = Color.valueOf("d0ffbb32");
 
     public UnitPortal(String name) {
         super(name);
@@ -118,7 +110,7 @@ public class UnitPortal extends Block {
         if (tile == null) return;
 
         Lines.stroke(1f);
-        Draw.color(Pal.heal);
+        Draw.color(Pal.remove);
         Drawf.circles(x * tilesize + offset, y * tilesize + offset, UnitRange * tilesize);
 
         Lines.stroke(1f);
@@ -129,7 +121,6 @@ public class UnitPortal extends Block {
     }
 
     public class UnitPortalBlockBuild extends Building {
-
         public UnitPortalBlockBuild TargetBlock = null;
         public ObjectMap<Integer, Float> ObjTimer = new ObjectMap<>();
 
@@ -218,7 +209,7 @@ public class UnitPortal extends Block {
 
             Lines.stroke(1.0F);
 
-            Lines.stroke(3.0F, CC);
+            Lines.stroke(3.0F, Pal.gray);
             Lines.circle(x, y, LinkRange * 8.0F);
             Lines.stroke(1.0F, Pal.accent);
             Lines.circle(x, y, LinkRange * 8.0F);
@@ -242,15 +233,15 @@ public class UnitPortal extends Block {
         public void draw() {
             super.draw();
 
-            Lines.stroke(1.0F);
-
-            Lines.stroke(3.0F, CC);
-            Lines.circle(x, y, UnitRange * tilesize);
-            Lines.stroke(1.0F, Pal.heal);
-            Lines.circle(x, y, UnitRange * tilesize);
-            Draw.reset();
-
             if (TargetBlock != null) {
+                Lines.stroke(1.0F);
+
+                Lines.stroke(3.0F, Pal.gray);
+                Lines.circle(x, y, UnitRange * tilesize);
+                Lines.stroke(1.0F, Pal.remove);
+                Lines.circle(x, y, UnitRange * tilesize);
+                Draw.reset();
+
                 if (TransferAll) {
                     if (!ObjTimer.containsKey(0)) {
                         ObjTimer.put(0, 0f);
@@ -258,9 +249,9 @@ public class UnitPortal extends Block {
 
                     Lines.stroke(1.0F);
 
-                    Lines.stroke(3.0F, CC);
+                    Lines.stroke(3.0F, Pal.gray);
                     Lines.circle(x, y, ((ObjTimer.get(0) / TransferSpeed) * UnitRange) * tilesize);
-                    Lines.stroke(1.0F, Tmp.c1.set(Color.white).lerp(Pal.heal, ObjTimer.get(0) / TransferSpeed));
+                    Lines.stroke(1.0F, Tmp.c1.set(Color.white).lerp(Pal.remove, ObjTimer.get(0) / TransferSpeed));
                     Lines.circle(x, y, ((ObjTimer.get(0) / TransferSpeed) * UnitRange) * tilesize);
                     Draw.reset();
                 } else {
@@ -272,21 +263,42 @@ public class UnitPortal extends Block {
 
                         if (u.dst(this) > UnitRange * tilesize) return;
 
-                        Lines.stroke(3.0F, CC);
+                        Lines.stroke(3.0F, Pal.gray);
                         Lines.circle(u.x, u.y, u.hitSize * 2);
-                        Lines.stroke(1.0F, Pal.heal);
+                        Lines.stroke(1.0F, Pal.remove);
                         Lines.circle(u.x, u.y, u.hitSize * 2);
                         Draw.reset();
 
                         Lines.stroke(1.0F);
 
-                        Lines.stroke(3.0F, CC);
+                        Lines.stroke(3.0F, Pal.gray);
                         Lines.circle(u.x, u.y, (t / TransferSpeed) * u.hitSize * 2);
-                        Lines.stroke(1.0F, Tmp.c1.set(Color.white).lerp(Pal.heal, t / TransferSpeed));
+                        Lines.stroke(1.0F, Tmp.c1.set(Color.white).lerp(Pal.remove, t / TransferSpeed));
                         Lines.circle(u.x, u.y, (t / TransferSpeed) * u.hitSize * 2);
                         Draw.reset();
                     }
                 }
+
+                float sin = Mathf.absin(Time.time, 6f, 1f);
+
+                Drawf.arrow(
+                        this.x, this.y,
+                        TargetBlock.x, TargetBlock.y,
+                        size * tilesize + sin,
+                        5f + sin,
+                        Pal.accent
+                );
+
+                float angle = Angles.angle(x, y, TargetBlock.x, TargetBlock.y);
+                float space = 2.0F;
+                Tmp.v1.set(this.x, this.y).sub(TargetBlock.x, TargetBlock.y).limit(size * tilesize + sin);
+                float vx = Tmp.v1.x + TargetBlock.x;
+                float vy = Tmp.v1.y + TargetBlock.y;
+                Draw.color(Pal.gray);
+                Fill.poly(vx, vy, 3, 5f + sin + space, angle);
+                Draw.color(Pal.place);
+                Fill.poly(vx, vy, 3, 5f + sin, angle);
+                Draw.color();
             }
         }
 
@@ -301,6 +313,10 @@ public class UnitPortal extends Block {
             }
 
             if (TransferAll) {
+                if (!ObjTimer.containsKey(0)) {
+                    ObjTimer.put(0, 0f);
+                }
+
                 write.f(ObjTimer.get(0));
             } else {
                 write.i(ObjTimer.size);
@@ -319,7 +335,7 @@ public class UnitPortal extends Block {
             if (BuildId == -1) {
                 TargetBlock = null;
             } else {
-                TargetBlock = (UnitPortalBlockBuild) Vars.world.build(read.i());
+                TargetBlock = (UnitPortalBlockBuild) Vars.world.build(BuildId);
             }
 
             ObjTimer.clear();

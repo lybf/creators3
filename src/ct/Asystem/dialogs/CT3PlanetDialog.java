@@ -1,21 +1,32 @@
 package ct.Asystem.dialogs;
 //区块名显示
 
+import arc.Core;
+import arc.func.Cons;
 import arc.graphics.Color;
 import arc.graphics.g2d.Draw;
 import arc.graphics.g2d.Font;
 import arc.graphics.g2d.GlyphLayout;
 import arc.math.Mathf;
+import arc.scene.ui.layout.Table;
+import arc.struct.ObjectMap;
+import arc.util.Scaling;
 import arc.util.pooling.Pools;
 import mindustry.content.TechTree;
+import mindustry.core.UI;
+import mindustry.ctype.UnlockableContent;
+import mindustry.game.SectorInfo;
 import mindustry.game.Team;
+import mindustry.gen.Icon;
+import mindustry.gen.Iconc;
 import mindustry.graphics.Pal;
-import mindustry.type.Planet;
-import mindustry.type.Sector;
-import mindustry.type.SectorPreset;
+import mindustry.type.*;
 import mindustry.ui.Fonts;
+import mindustry.ui.dialogs.BaseDialog;
 import mindustry.ui.dialogs.PlanetDialog;
 
+import static mindustry.Vars.content;
+import static mindustry.Vars.iconSmall;
 import static mindustry.ui.dialogs.PlanetDialog.Mode.planetLaunch;
 import static mindustry.ui.dialogs.PlanetDialog.Mode.select;
 
@@ -107,4 +118,125 @@ public class CT3PlanetDialog extends PlanetDialog {
 
         Draw.reset();
     }
+
+
+    void displayItems(Table c, float scl, ObjectMap<Item, SectorInfo.ExportStat> stats, String name) {
+        displayItems(c, scl, stats, name, t -> {
+        });
+    }
+
+    void displayItems(Table c, float scl, ObjectMap<Item, SectorInfo.ExportStat> stats, String name, Cons<Table> builder) {
+        Table t = new Table().left();
+
+        int i = 0;
+        for (var item : content.items()) {
+            var stat = stats.get(item);
+            if (stat == null) continue;
+            int total = (int) (stat.mean * 60 * scl);
+            if (total > 1) {
+                t.image(item.uiIcon).padRight(3);
+                t.add(UI.formatAmount(total) + " " + Core.bundle.get("unit.perminute")).color(Color.lightGray).padRight(3);
+                if (++i % 3 == 0) {
+                    t.row();
+                }
+            }
+        }
+
+        if (t.getChildren().any()) {
+            c.defaults().left();
+            c.add(name).row();
+            builder.get(c);
+            c.add(t).padLeft(10f).row();
+        }
+    }
+
+
+    /*
+    *显示区块物品 by Anuken
+    *为什么屑猫要写成private方法呢（
+    */
+    public void showStats(Sector sector) {
+        BaseDialog dialog = new BaseDialog(sector.name());
+
+        dialog.cont.pane(c -> {
+            c.defaults().padBottom(5);
+
+            if (sector.preset != null && sector.preset.description != null) {
+                c.add(sector.preset.displayDescription()).width(420f).wrap().left().row();
+            }
+
+            c.add(Core.bundle.get("sectors.time") + " [accent]" + sector.save.getPlayTime()).left().row();
+
+            if (sector.info.waves && sector.hasBase()) {
+                c.add(Core.bundle.get("sectors.wave") + " [accent]" + (sector.info.wave + sector.info.wavesPassed)).left().row();
+            }
+
+            if (sector.isAttacked() || !sector.hasBase()) {
+                c.add(Core.bundle.get("sectors.threat") + " [accent]" + sector.displayThreat()).left().row();
+            }
+
+            if (sector.save != null && sector.info.resources.any()) {
+                c.add("@sectors.resources").left().row();
+                c.table(t -> {
+                    for (UnlockableContent uc : sector.info.resources) {
+                        if (uc == null) continue;
+                        t.image(uc.uiIcon).scaling(Scaling.fit).padRight(3).size(iconSmall);
+                    }
+                }).padLeft(10f).left().row();
+            }
+
+            //production
+            displayItems(c, sector.getProductionScale(), sector.info.production, "@sectors.production");
+
+            //export
+            displayItems(c, sector.getProductionScale(), sector.info.export, "@sectors.export", t -> {
+                if (sector.info.destination != null && sector.info.destination.hasBase()) {
+                    String ic = sector.info.destination.iconChar();
+                    t.add(Iconc.rightOpen + " " + (ic == null || ic.isEmpty() ? "" : ic + " ") + sector.info.destination.name()).padLeft(10f).row();
+                }
+            });
+
+            //import
+            if (sector.hasBase()) {
+                displayItems(c, 1f, sector.info.importStats(sector.planet), "@sectors.import", t -> {
+                    sector.info.eachImport(sector.planet, other -> {
+                        String ic = other.iconChar();
+                        t.add(Iconc.rightOpen + " " + (ic == null || ic.isEmpty() ? "" : ic + " ") + other.name()).padLeft(10f).row();
+                    });
+                });
+            }
+
+            ItemSeq items = sector.items();
+
+            //stored resources
+            if (sector.hasBase() && items.total > 0) {
+
+                c.add("@sectors.stored").left().row();
+                c.table(t -> {
+                    t.left();
+
+                    t.table(res -> {
+
+                        int i = 0;
+                        for (ItemStack stack : items) {
+                            res.image(stack.item.uiIcon).padRight(3);
+                            res.add(UI.formatAmount(Math.max(stack.amount, 0))).color(Color.lightGray);
+                            if (++i % 4 == 0) {
+                                res.row();
+                            }
+                        }
+                    }).padLeft(10f);
+                }).left().row();
+            }
+        });
+
+        dialog.addCloseButton();
+
+        if (sector.hasBase()) {
+            dialog.buttons.button("@sector.abandon", Icon.cancel, () -> abandonSectorConfirm(sector, dialog::hide));
+        }
+
+        dialog.show();
+    }
+
 }

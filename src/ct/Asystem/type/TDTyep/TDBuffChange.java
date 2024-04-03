@@ -48,7 +48,7 @@ public class TDBuffChange {
 
             @Override
             public void updateTile() {
-                Vars.state.teams.present.select(teamData -> teamData.team != Vars.state.rules.defaultTeam).forEach(teamData -> teamData.units.forEach(unit -> unit.apply(Buff, 60)));
+                Vars.state.teams.present.select(teamData -> teamData.team != Vars.state.rules.defaultTeam).each(teamData -> teamData.units.each(unit -> unit.apply(Buff, 60)));
             }
         }
     }
@@ -81,7 +81,7 @@ public class TDBuffChange {
 
             @Override
             public void updateTile() {
-                Vars.state.teams.present.select(teamData -> teamData.team != Vars.state.rules.defaultTeam).forEach(teamData -> teamData.units.forEach(unit -> unit.apply(Buff, 60)));
+                Vars.state.teams.present.select(teamData -> teamData.team != Vars.state.rules.defaultTeam).each(teamData -> teamData.units.each(unit -> unit.apply(Buff, 60)));
             }
         }
     }
@@ -151,8 +151,8 @@ public class TDBuffChange {
 
             @Override
             public void updateTile() {
-                Vars.state.teams.present.select(teamData -> teamData.team != Vars.state.rules.defaultTeam).forEach(teamData ->
-                        teamData.units.select(unit -> !units.contains(unit)).forEach(unit -> {
+                Vars.state.teams.present.select(teamData -> teamData.team != Vars.state.rules.defaultTeam).each(teamData ->
+                        teamData.units.select(unit -> !units.contains(unit)).each(unit -> {
                             units.add(unit);
                             unit.shield(盾量 - unit.shield);
                         }));

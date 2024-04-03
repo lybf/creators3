@@ -13,7 +13,8 @@ public class Item0 {
             mod资源1显示 = new Seq<>(),
             mod资源4隐藏 = new Seq<>(),
             erekir隐藏Items = new Seq<>(),
-            serpulo隐藏Items = new Seq<>();
+            serpulo隐藏Items = new Seq<>(),
+            TDserpuloItems = new Seq<>();
 
     public static void load() {
 
@@ -28,7 +29,10 @@ public class Item0 {
         mod资源1显示.addAll(
                 陶, 翠, 月银沙, 缕, 离, 灵玉, 血晶, 运符, 威灵, 明宝, 精焰, 萤玫, 冰橡子, 余烬, 幻烬, 超烬, 废丹, 筑基丹, 物品
         );
-
+        TDserpuloItems.addAll(
+                scrap, copper, lead, graphite, coal, titanium, thorium, silicon, plastanium,
+                phaseFabric, surgeAlloy, sporePod, sand, blastCompound, pyratite, metaglass,
+                物品);
         /*        mod资源4显示.addAll(
          *//*矿物*//*
                 魂石, 冥石, 冤藤, 赤焰石, 戾气赤焰石, 气丝晶体, 灵石, 怨石, 烟冰, 沉石, 微晶石,

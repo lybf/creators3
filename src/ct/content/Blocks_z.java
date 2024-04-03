@@ -3,7 +3,7 @@ package ct.content;
 import ct.Asystem.type.BlockLimit.GenericCrafterLimit;
 import ct.Asystem.type.LinksSt0rageBlock;
 import ct.Asystem.type.TDTyep.UnitPortal;
-import ct.Asystem.type.心灵控制术法;
+import ct.Asystem.type.BulletType.XinLingKongZhiZhiDan;
 import mindustry.content.Blocks;
 import mindustry.content.Items;
 import mindustry.type.Category;
@@ -94,7 +94,7 @@ public class Blocks_z {
             recoil = 2;//后座力动画
             reload = 200;//射速
             rotateSpeed = 10f;
-            shootType = new 心灵控制术法(30, 30) {{
+            shootType = new XinLingKongZhiZhiDan(30, 30) {{
                 chanceDeflect = 0.001f;
             }};
         }};

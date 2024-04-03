@@ -1,4 +1,4 @@
-package ct.Asystem.type;
+package ct.Asystem.type.BulletType;
 
 import arc.math.Mathf;
 import arc.util.Tmp;
@@ -9,16 +9,16 @@ import mindustry.gen.*;
 import mindustry.type.StatusEffect;
 
 //给狗子用的
-public class 心灵控制术法 extends BasicBulletType {
+public class XinLingKongZhiZhiDan extends BasicBulletType {
     public float chanceDeflect = 0;
     public StatusEffect unitStatusEffect = StatusEffects.wet;
     public float statusEffectTime = Float.POSITIVE_INFINITY;
 
-    public 心灵控制术法(float speed, float damage, String bulletSprite) {
+    public XinLingKongZhiZhiDan(float speed, float damage, String bulletSprite) {
         super(speed, damage, bulletSprite);
     }
 
-    public 心灵控制术法(float speed, float damage) {
+    public XinLingKongZhiZhiDan(float speed, float damage) {
         this(speed, damage, "bullet");
     }
 

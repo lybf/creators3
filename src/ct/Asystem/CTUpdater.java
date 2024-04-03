@@ -6,6 +6,7 @@ import arc.scene.ui.Label;
 import arc.util.Http;
 import arc.util.Reflect;
 import arc.util.serialization.Jval;
+import ct.ctUpdateDialog;
 import mindustry.Vars;
 import mindustry.mod.Mods.LoadedMod;
 import mindustry.ui.dialogs.BaseDialog;
@@ -17,7 +18,7 @@ import static mindustry.Vars.*;
 
 //更新检测
 public class CTUpdater {
-    public static void showCustomConfirm(String title, String text, String yes, String no, String 网盘, Runnable confirmed, Runnable denied) {
+    public static void showCustomConfirm(String title, String text, String yes, String no, Runnable confirmed, Runnable denied) {
         var https222 = "https://pan.baidu.com/s/1_JQjeMJ9aWcHnZY-YX6FJQ?pwd=1314";
         BaseDialog dialog = new BaseDialog(title);
         ((Label) dialog.cont.add(text).width(Vars.mobile ? 400.0F : 500.0F).wrap().pad(4.0F).get()).setAlignment(1, 1);
@@ -29,9 +30,9 @@ public class CTUpdater {
         });
         dialog.buttons.button(yes, () -> {
             dialog.hide();
-            confirmed.run();
+            ctUpdateDialog.show();
         });
-        dialog.buttons.button(网盘, () -> {
+ /*       dialog.buttons.button(网盘, () -> {
             // dialog.hide();
 
             if (!Core.app.openURI(https222)) {
@@ -39,7 +40,7 @@ public class CTUpdater {
                 Core.app.setClipboardText(https222);
             }
 
-        });
+        });*/
         KeyCode var10001 = KeyCode.escape;
         Objects.requireNonNull(dialog);
         dialog.keyDown(var10001, dialog::hide);
@@ -47,6 +48,7 @@ public class CTUpdater {
         Objects.requireNonNull(dialog);
         dialog.keyDown(var10001, dialog::hide);
         dialog.show();
+
     }
 
     private static LoadedMod mod;
@@ -64,8 +66,8 @@ public class CTUpdater {
 
             showCustomConfirm(Core.bundle.get("creators-tools.updater.name"),
                     Core.bundle.format("creators-tools.updater.info", mod.meta.version, version),
-                    Core.bundle.get("creators-tools.updater.load"), "@close", "@wangpan", () -> {
-                        Reflect.invoke(ModsDialog.class, ui.mods, "githubImportJavaMod", new Object[]{repo, null}, String.class, String.class);
+                    Core.bundle.get("检查更新"), "@close", /*"@wangpan",*/ () -> {
+                        //Reflect.invoke(ModsDialog.class, ui.mods, "githubImportJavaMod", new Object[]{repo, null}, String.class, String.class);
                     }, () -> {
                     });
         }, e -> {

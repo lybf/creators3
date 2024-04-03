@@ -3,6 +3,7 @@ package ct.Asystem.dialogs;
 import arc.Core;
 import arc.graphics.Color;
 import arc.util.Align;
+import ct.ctUpdateDialog;
 import mindustry.Vars;
 import mindustry.mod.Mods;
 import mindustry.ui.dialogs.BaseDialog;
@@ -20,6 +21,9 @@ public class CT3InfoDialog {
         String TD网盘 = "https://pan.baidu.com/s/1WJ2ZrehLvl8m17bl6-RbGQ?pwd=bjt3";
 
         ct3info = new BaseDialog("[yellow]Creators[#7bebf2] " + version + "[] Adapt 146+" + "\n策划:9527，贴图:皴皲，处理器逻辑指导:咕咕点心\nQQ群:909130592") {{
+            //更新检查
+            buttons.button(Core.bundle.format("发现更新"), (ctUpdateDialog::show)).size(150, 64);
+
             addCloseListener();//按esc关闭
             buttons.defaults().size(210, 64);
             buttons.button("@close", (this::hide)).size(100, 64);//关闭按钮
@@ -76,17 +80,19 @@ public class CT3InfoDialog {
                                 Core.app.setClipboardText(QQ群2);
                             }
                         })).size(510, 64).row();
-                        table.button(Core.bundle.format("TD网盘"), (() -> {
+
+                    /* table.button(Core.bundle.format("TD网盘"), (() -> {
                             if (!Core.app.openURI(TD网盘)) {
                                 Vars.ui.showErrorMessage("@linkfail");
                                 Core.app.setClipboardText(TD网盘);
                             }
-                        })).size(510, 64).row();
+                        })).size(510, 64).row();*/
 
                     }));
                 }}.show();
             })).size(150, 64);
         }};
         ct3info.show();
+
     }
 }

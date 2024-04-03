@@ -17,7 +17,6 @@ import mindustry.gen.Building;
 import mindustry.gen.Groups;
 import mindustry.gen.Unit;
 import mindustry.graphics.Drawf;
-import mindustry.graphics.Layer;
 import mindustry.graphics.Pal;
 import mindustry.type.StatusEffect;
 import mindustry.world.Block;
@@ -44,19 +43,23 @@ public class UnitPortal extends Block {
         StatTransferSpeed = new Stat("StatTransferSpeed");
 
         TransferEffect = new StatusEffect("immuneTransfer") {
+            {
+                show = false;
+            }
+
             public void update(Unit unit, float time) {
             }
 
-   /*         @Override
+/*            @Override
             public void draw(Unit unit) {
                 Draw.z(Layer.flyingUnit + 1);
-                Draw.rect("ct-immuneTransfer", unit.x, unit.y, tilesize + unit.hitSize() / 2, tilesize + unit.hitSize() / 2);
+                Draw.rect("immuneTransfer", unit.x, unit.y, tilesize + unit.hitSize() / 2, tilesize + unit.hitSize() / 2);
             }*/
         };
     }
 
     //最远连接范围（格）
-    public float LinkRange = 50;
+    public float LinkRange = 150;
 
     //传送区范围（格）
     //以方块中心为圆形，单位进入区域传送

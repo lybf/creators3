@@ -9,6 +9,8 @@ import arc.struct.ObjectMap;
 import arc.struct.ObjectSet;
 import arc.struct.Seq;
 import arc.util.Time;
+import arc.util.Timer;
+import ct.Asystem.CTUpdater;
 import ct.Asystem.Wave;
 import ct.Asystem.dialogs.CT3InfoDialog;
 import ct.Asystem.dialogs.CT3PlanetDialog;
@@ -24,6 +26,7 @@ import mindustry.Vars;
 import mindustry.game.EventType;
 import mindustry.graphics.Layer;
 import mindustry.mod.Mod;
+import mindustry.mod.Mods;
 import mindustry.mod.Scripts;
 import mindustry.type.Planet;
 import mindustry.type.UnitType;
@@ -65,7 +68,10 @@ public class CTRebirth extends Mod {
     }
 
     public void loadContent() {
-        Vars.mods.locateMod("ct").meta.version += "-" + "[violet]创世神3[] 版本：[yellow]" + Vars.mods.getMod("ct").meta.version + "[]";
+  /*      Vars.mods.locateMod("ct")
+                .meta.version += "-" + "[violet]创世神3[] 版本：[yellow]"
+                + Vars.mods.getMod("ct").meta.version + "[]";
+        */
 /*        LogicBlock {
             @Override
             public boolean canBreak (Tile tile){
@@ -105,12 +111,20 @@ public class CTRebirth extends Mod {
         } catch (Exception var5) {
             Vars.ui.showException(var5);
         }
-
-        CreatorsModJS.DawnMods();
+        overrideVersion();//显示版本号
+        CreatorsModJS.DawnMods();//JS加载器
 
 
     }
 
+    public static void overrideVersion() {
+        for (int i = 0; i < Vars.mods.list().size; i++) {
+            Mods.LoadedMod mod = Vars.mods.list().get(i);
+            if (mod != null) {
+                mod.meta.description = Core.bundle.get("mod.ct.version") + mod.meta.version + "\n\n" + mod.meta.description;
+            }
+        }
+    }
 
     public static boolean CTBlockBool = true;//原版蓝图系统解锁
     public static ObjectMap<Block, Block> CTBlock = new ObjectMap<>();
@@ -167,18 +181,20 @@ public class CTRebirth extends Mod {
 
         //区块名显示
         Vars.ui.planet = new CT3PlanetDialog();
-
+        //更新检测
+        Events.on(EventType.ClientLoadEvent.class, e -> ctUpdateDialog.load());
         //跳波惩罚
         new Wave();
 
-        //檢測更新
-        // Events.on(EventType.ClientLoadEvent.class, e -> Timer.schedule(CTUpdater::checkUpdate, 4));
+        //檢測更新 旧版
+        Events.on(EventType.ClientLoadEvent.class, e -> Timer.schedule(CTUpdater::checkUpdate, 4));
 
         //选择方块显示图标
         Events.on(EventType.ClientLoadEvent.class, e -> CT3选择方块显示图标());
 
         //开屏显示
         Events.on(EventType.ClientLoadEvent.class, e -> CT3InfoDialog.show());
+
 
         //科技树全显
         CTResearchDialog dialog = new CTResearchDialog();

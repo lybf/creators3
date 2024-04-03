@@ -3,9 +3,10 @@
   "main": "ct.CTRebirth",
   "displayName": "创世神3-仙明决",
   "author": "[pink]编[cyan]号[red]95[violet]27，皴皲",
-  "repo": "no9527dada/creators3",
+  // "repo": "no9527dada/creators3",
   "description": "9527，皴皲，咕咕点心,LYBF,Ovulam5480,皴皲",
-  "version": "1.09.6",
+  "version": "2.1.09.6",
+  //附属模组数量.篇章.战役地图数量.小型更新
   "minGameVersion": 146
 }
 //hideBrowser = true //不加入模组浏览器

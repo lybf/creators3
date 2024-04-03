@@ -4,7 +4,7 @@ import arc.graphics.Color;
 import arc.graphics.g2d.Lines;
 import arc.math.Angles;
 import arc.struct.Seq;
-import ct.Asystem.type.CTBulletTypes;
+import ct.Asystem.type.BulletType.CTBulletTypes;
 import mindustry.Vars;
 import mindustry.content.Fx;
 import mindustry.content.Items;
@@ -20,7 +20,7 @@ import mindustry.world.blocks.defense.turrets.PowerTurret;
 import mindustry.world.meta.BuildVisibility;
 
 
-import static ct.Asystem.type.CTBulletTypes.*;
+import static ct.Asystem.type.BulletType.CTBulletTypes.*;
 import static ct.content.chapter4.CT3Item4.*;
 
 import static mindustry.content.Fx.none;

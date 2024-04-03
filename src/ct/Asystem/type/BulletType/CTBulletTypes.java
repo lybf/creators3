@@ -1,6 +1,7 @@
-package ct.Asystem.type;
+package ct.Asystem.type.BulletType;
 
 import arc.graphics.g2d.Lines;
+import ct.Asystem.type.CTContinuousLaserBulletType;
 import mindustry.content.Fx;
 import mindustry.content.StatusEffects;
 import mindustry.entities.Effect;

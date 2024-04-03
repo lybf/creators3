@@ -218,6 +218,12 @@ public class CTResearchDialog extends BaseDialog {
             ui.database.show();
         }).size(210f, 64f).name("database");
 
+        buttons.button(Core.bundle.format("love9527"), () -> {
+            hide();
+            new Award9527().show();
+
+        }).size(150f, 64f).name("database");
+
         //scaling/drag input
         addListener(new InputListener() {
             @Override

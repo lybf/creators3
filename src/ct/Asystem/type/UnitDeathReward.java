@@ -79,13 +79,19 @@ public class UnitDeathReward {
 
     //初始化
     public UnitDeathReward init() {
-        if (!initialized) Events.on(EventType.UnitDestroyEvent.class, cons);
+        if (!initialized) {
+            Events.on(EventType.UnitDestroyEvent.class, cons);
+            initialized = true;
+        }
         return instance;
     }
 
     //移除应用，取消监听
     public UnitDeathReward removeEvent() {
-        if (initialized)Events.remove(EventType.UnitDestroyEvent.class, cons);
+        if (initialized) {
+            Events.remove(EventType.UnitDestroyEvent.class, cons);
+            initialized = false;
+        }
         return instance;
     }
 

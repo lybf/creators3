@@ -68,14 +68,20 @@ public class BlockDestroyReward {
 
     //初始化
     public BlockDestroyReward apply() {
-        if (!initialized) Events.on(EventType.BlockDestroyEvent.class, cons);
+        if (!initialized) {
+            Events.on(EventType.BlockDestroyEvent.class, cons);
+            initialized = true;
+        }
         return instance;
     }
 
 
     //移除应用，取消监听
     public BlockDestroyReward removeEvent() {
-        if (initialized) Events.remove(EventType.BlockDestroyEvent.class, cons);
+        if (initialized) {
+            Events.remove(EventType.BlockDestroyEvent.class, cons);
+            initialized = false;
+        }
         return instance;
     }
 

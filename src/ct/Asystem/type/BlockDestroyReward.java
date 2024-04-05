@@ -1,6 +1,7 @@
 package ct.Asystem.type;
 
 import arc.Events;
+import arc.func.Cons;
 import mindustry.Vars;
 import mindustry.game.EventType;
 import mindustry.game.Team;
@@ -11,6 +12,7 @@ import mindustry.world.modules.ItemModule;
 
 import java.util.HashMap;
 import java.util.Objects;
+
 
 /*
  *@Author:LYBF
@@ -24,6 +26,9 @@ public class BlockDestroyReward {
 
     //奖励配置
     public static HashMap<String, BlockDestroyRewardConfiguration> configurations = new HashMap<>();
+
+
+    private static boolean initialized = false;
 
     //配置类
     public static class BlockDestroyRewardConfiguration {
@@ -47,21 +52,36 @@ public class BlockDestroyReward {
         return instance;
     }
 
+    Cons<EventType.BlockDestroyEvent> cons = (EventType.BlockDestroyEvent e) -> {
+        Team unitTeam = e.tile.team();
+        Team playerTeam = Vars.player.team();
+        //是同一个队伍时不触发
+        if (unitTeam == playerTeam || Vars.state.teams.get(Vars.player.team()).core() == null) return;
+        BlockDestroyRewardConfiguration configuration = configurations.get(e.tile.block().name);
+        if (!Objects.isNull(configuration)) {
+            ItemModule items = Vars.state.teams.get(Vars.player.team()).core().items();
+            for (ItemStack itemStack : configuration.itemStacks) {
+                items.add(itemStack.item, itemStack.amount);
+            }
+        }
+    };
+
     //初始化
     public BlockDestroyReward apply() {
-        Events.on(EventType.BlockDestroyEvent.class, e -> {
-            Team unitTeam = e.tile.team();
-            Team playerTeam = Vars.player.team();
-            //是同一个队伍时不触发
-            if (unitTeam == playerTeam || Vars.state.teams.get(Vars.player.team()).core() == null) return;
-            BlockDestroyRewardConfiguration configuration = configurations.get(e.tile.block().name);
-            if (!Objects.isNull(configuration)) {
-                ItemModule items = Vars.state.teams.get(Vars.player.team()).core().items();
-                for (ItemStack itemStack : configuration.itemStacks) {
-                    items.add(itemStack.item, itemStack.amount);
-                }
-            }
-        });
+        if (!initialized) {
+            Events.on(EventType.BlockDestroyEvent.class, cons);
+            initialized = true;
+        }
+        return instance;
+    }
+
+
+    //移除应用，取消监听
+    public BlockDestroyReward removeEvent() {
+        if (initialized) {
+            Events.remove(EventType.BlockDestroyEvent.class, cons);
+            initialized = false;
+        }
         return instance;
     }
 

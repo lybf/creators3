@@ -50,6 +50,8 @@ public class DuplexCoreGenericCrafter extends CoreGenericCrafter {
     @Override
     public void setStats() {
         super.setStats();
+        stats.remove(Stat.powerCapacity);
+        stats.remove(Stat.powerUse);
         stats.remove(Stat.input);
         for (var c : consumers) {
             if (c instanceof ConsumeItems) {

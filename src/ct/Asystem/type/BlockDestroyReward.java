@@ -6,7 +6,6 @@ import mindustry.Vars;
 import mindustry.game.EventType;
 import mindustry.game.Team;
 import mindustry.type.ItemStack;
-import mindustry.type.UnitType;
 import mindustry.world.Block;
 import mindustry.world.modules.ItemModule;
 

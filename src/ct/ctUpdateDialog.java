@@ -297,6 +297,7 @@ public class ctUpdateDialog {
 
         contentDialog.cont.pane((table -> {
             table.add(updateBody.get(name)).left().growX().wrap().width(350).maxWidth(350).pad(4).row();
+            table.add(Core.bundle.get("如果失败")).left().growX().wrap().width(350).maxWidth(350).pad(4).row();
             table.image().color(Color.valueOf("69dcee")).fillX().height(3).pad(3).row();
 
             table.add(Core.bundle.get("最新版本") + updateTag.get(name)).center().growX().wrap().width(200).maxWidth(200).pad(4).row();
@@ -305,6 +306,12 @@ public class ctUpdateDialog {
             table.image().color(Color.valueOf("69dcee")).fillX().height(3).pad(3).row();
             table.button(Core.bundle.get("现在更新"), (() -> {
                 githubImportMod(url, isJava);
+            })).size(510, 64).row();
+            table.button(Core.bundle.format("QQ群2"), (() -> {
+                if (!Core.app.openURI(QQ群)) {
+                    Vars.ui.showErrorMessage("@linkfail");
+                    Core.app.setClipboardText(QQ群);
+                }
             })).size(510, 64).row();
             table.button("@close", (contentDialog::hide)).size(100, 64).labelAlign(Align.center);//关闭按钮
         }));

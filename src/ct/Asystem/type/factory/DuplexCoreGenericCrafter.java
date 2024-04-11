@@ -8,6 +8,7 @@ import arc.scene.ui.layout.Table;
 import arc.util.io.Reads;
 import arc.util.io.Writes;
 import mindustry.Vars;
+import mindustry.game.Teams;
 import mindustry.gen.Building;
 import mindustry.logic.LAccess;
 import mindustry.type.ItemStack;
@@ -70,12 +71,12 @@ public class DuplexCoreGenericCrafter extends CoreGenericCrafter {
 
         @Override
         public void displayConsumption(Table table) {
-            CoreBlock.CoreBuild coreBuild = teamCore();
+            Building coreBuild = teamCore();
             table.left();
             for (var cons : this.block.consumers) {
                 if (!cons.optional || !cons.booster) {
                     if (cons instanceof ConsumeItems)
-                        cons.build(coreBuild == null ? this : coreBuild, table);
+                        cons.build(coreBuild, table);
                     else
                         cons.build(this, table);
                 }
@@ -123,7 +124,7 @@ public class DuplexCoreGenericCrafter extends CoreGenericCrafter {
         }
 
         public boolean whetherItemsCanConsume() {
-            CoreBlock.CoreBuild coreBuild = teamCore();
+            Building coreBuild = teamCore();
             if (coreBuild == null) return false;
             for (var cons : this.block.consumers) {
                 if (cons instanceof ConsumeItems) {
@@ -135,7 +136,7 @@ public class DuplexCoreGenericCrafter extends CoreGenericCrafter {
         }
 
         private boolean checkItemsCount(ItemStack[] itemStacks) {
-            CoreBlock.CoreBuild coreBuild = teamCore();
+            Building coreBuild = teamCore();
             if (coreBuild == null) return false;
             for (ItemStack itemStack : itemStacks) {
                 if (!coreBuild.items().has(itemStack.item) || coreBuild.items().get(itemStack.item) < minResLimit) {
@@ -148,7 +149,7 @@ public class DuplexCoreGenericCrafter extends CoreGenericCrafter {
 
         @Override
         public void updateConsumption() {
-            Building build = teamCore() == null ? this : teamCore();
+            Building build = teamCore();
             if (!block.hasConsumers || cheating()) {
                 potentialEfficiency = enabled && productionValid() ? 1.0F : 0.0F;
                 efficiency = optionalEfficiency = shouldConsume() ? potentialEfficiency : 0.0F;
@@ -184,7 +185,7 @@ public class DuplexCoreGenericCrafter extends CoreGenericCrafter {
 
         @Override
         public void consume() {
-            CoreBlock.CoreBuild coreBuild = teamCore();
+            Building coreBuild = teamCore();
             if (coreBuild == null) return;
             for (var cons : this.block.consumers) {
                 if (cons instanceof ConsumeItems) {
@@ -199,7 +200,7 @@ public class DuplexCoreGenericCrafter extends CoreGenericCrafter {
 
         @Override
         public boolean shouldConsume() {
-            Building build = teamCore() == null ? this : teamCore();
+            Building build = teamCore();
             if (outputItems != null) {
                 for (var output : outputItems) {
                     if (build.items.get(output.item) + output.amount > build.getMaximumAccepted(output.item)) {
@@ -234,8 +235,9 @@ public class DuplexCoreGenericCrafter extends CoreGenericCrafter {
         }
 
 
-        public CoreBlock.CoreBuild teamCore() {
-            return Vars.state.teams.get(team).core();
+        public Building teamCore() {
+            Teams.TeamData teamData = Vars.state.teams.getOrNull(team);
+            return teamData == null ? this : teamData.core();
         }
 
 
@@ -271,14 +273,19 @@ public class DuplexCoreGenericCrafter extends CoreGenericCrafter {
         }
 
         @Override
+        public byte version() {
+            return 2;
+        }
+
+        @Override
         public void write(Writes write) {
             super.write(write);
             write.i(Math.max(minResLimit, 0));
         }
 
         @Override
-        public void read(Reads read) {
-            super.read(read);
+        public void read(Reads read, byte revision) {
+            super.read(read, revision);
             minResLimit = read.i();
         }
     }

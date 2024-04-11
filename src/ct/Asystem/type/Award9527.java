@@ -23,7 +23,7 @@ public class Award9527 extends BaseDialog {
                 b.cont.pane(a -> {
                     a.add(Core.bundle.format("dashangxinxi")).left().wrap().width(620).maxWidth(620).pad(4).labelAlign(Align.left).center().row();
                     a.image().color(Color.valueOf("69dcee")).fillX().height(3).pad(9).row();//分割线
-                    a.image(Core.atlas.find("creators-love2")).height(469 / 2f).width(477 / 2f).pad(3).row();//捐赠
+                    a.image(Core.atlas.find("ct-love2")).height(469 / 2f).width(477 / 2f).pad(3).row();//捐赠
                     a.button("@close", (b::hide)).size(100, 64);
                 });
                 b.show();
@@ -35,7 +35,7 @@ public class Award9527 extends BaseDialog {
                 b.cont.pane(a -> {
                     a.add(Core.bundle.format("dashangxinxi")).left().wrap().width(620).maxWidth(620).pad(4).labelAlign(Align.left).center().row();
                     a.image().color(Color.valueOf("69dcee")).fillX().height(3).pad(9).row();//分割线
-                    a.image(Core.atlas.find("creators-love1")).height(486 / 2f).width(477 / 2f).pad(3).row();//捐赠
+                    a.image(Core.atlas.find("ct-love1")).height(486 / 2f).width(477 / 2f).pad(3).row();//捐赠
                     a.button("@close", (b::hide)).size(100, 64);
                 });
                 b.show();

@@ -62,6 +62,17 @@ public class CT3InfoDialog {
                     cont.pane((table -> {
                         table.add(Core.bundle.format("CT3framer_txt")).left().growX().wrap().width(620).maxWidth(620).pad(4).labelAlign(Align.left);
                         table.row();
+                        table.button(Core.bundle.format("画大饼"), (() -> {
+                            new BaseDialog("") {{
+                                cont.pane((table -> {
+                                    table.add(Core.bundle.format("未来大饼")).left().growX().wrap().width(620).maxWidth(620).pad(4).labelAlign(Align.left);
+
+                                })).row();
+                                addCloseListener();//按esc关闭
+                                defaults().size(210, 64);
+                                buttons.button("@close", (this::hide)).size(100, 64);//关闭按钮
+                            }}.show();
+                        })).size(510, 64).row();
                     }));
                 }}.show();
             })).size(150, 64);

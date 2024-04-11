@@ -184,10 +184,10 @@ public class CTRebirth extends Mod {
         //更新检测
         Events.on(EventType.ClientLoadEvent.class, e -> ctUpdateDialog.load());
         //跳波惩罚
-        new Wave();
+        //new Wave();
 
         //檢測更新 旧版
-        Events.on(EventType.ClientLoadEvent.class, e -> Timer.schedule(CTUpdater::checkUpdate, 4));
+        // Events.on(EventType.ClientLoadEvent.class, e -> Timer.schedule(CTUpdater::checkUpdate, 4));
 
         //选择方块显示图标
         Events.on(EventType.ClientLoadEvent.class, e -> CT3选择方块显示图标());

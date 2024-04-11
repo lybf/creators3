@@ -1,16 +1,18 @@
 package ct.Asystem.type.TDTyep;
 
 import arc.Core;
+import ct.Asystem.type.factory.CreatorsUnitFactory;
 import mindustry.Vars;
 import mindustry.game.Team;
 import mindustry.world.Block;
 import mindustry.world.Tile;
 import mindustry.world.blocks.units.UnitFactory;
 
-public class TDUnitFactory extends UnitFactory {
+public class TDUnitFactory extends CreatorsUnitFactory {
     public TDUnitFactory(String name) {
         super(name);
         armor = 500;
+        unitLimit = 1;
     }
 
     public Block 升级前置 = null;

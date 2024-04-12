@@ -41,7 +41,7 @@ public class SettingDifficultyDialog extends Dialog {
         Table table = new Table();
         Slider slider = new Slider(1, 4, 1, false);
         slider.setValue(3);
-        slider.setValue(Core.settings.getFloat("游戏难度)", 3));
+        slider.setValue(Core.settings.getInt("游戏难度)", 3));
         Label value = new Label("", Styles.outlineLabel);
         Table content = new Table();
         content.add("难度设置", Styles.outlineLabel).left().growX().wrap();

@@ -3,10 +3,13 @@ package ct.Asystem.dialogs;
 import arc.Core;
 import arc.graphics.Color;
 import arc.util.Align;
+import ct.Asystem.WorldDifficulty;
 import ct.ctUpdateDialog;
 import mindustry.Vars;
 import mindustry.mod.Mods;
 import mindustry.ui.dialogs.BaseDialog;
+
+import static mindustry.Vars.ui;
 
 public class CT3InfoDialog {
     public static BaseDialog ct3info;
@@ -29,6 +32,11 @@ public class CT3InfoDialog {
             buttons.button("@close", (this::hide)).size(100, 64);//关闭按钮
             buttons.button(Core.bundle.get("difficulty.game", "难度设置"), (() -> {//游戏难度设置
                 new SettingDifficultyDialog().onDifficutyChange(e -> {
+                    ui.settings.game.sliderPref(
+                            "游戏难度", 3, 0, 5, 1, i -> Core.bundle.format("Difficulty-" + i)
+                    );
+                    Core.settings.get("游戏难度", true);
+                    new WorldDifficulty().init();
                 }).show();
             })).size(150, 64);
             cont.pane((table -> {

@@ -9,7 +9,7 @@ import arc.scene.ui.layout.Table;
 import arc.util.Align;
 import mindustry.Vars;
 import mindustry.ui.Styles;
-
+//工厂上显示跳产出资源
 public class EntityDraw {
     /*private static final String InventoryItem = "tempInventoryItem-";
     private static final String InventoryItemTimer = "tempInventoryItemTimer";

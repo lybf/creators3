@@ -12,6 +12,7 @@ import arc.util.Time;
 import arc.util.Timer;
 import ct.Asystem.CTUpdater;
 import ct.Asystem.Wave;
+import ct.Asystem.WorldDifficulty;
 import ct.Asystem.dialogs.CT3InfoDialog;
 import ct.Asystem.dialogs.CT3PlanetDialog;
 import ct.Asystem.type.CTResearchDialog;
@@ -81,6 +82,8 @@ public class CTRebirth extends Mod {
         // Team.sharded.color.set(0.0F, 153.0F, 255.0F, 64.0F);//黄队伍颜色
         //Team.crux.color.set(79.0F, 181.0F, 103.0F, 255.0F);//红队伍颜色
         //难度修改
+
+        WorldDifficulty.init();//初始化难度buff
 
         Item1.load();
         //CT3Item4.load();

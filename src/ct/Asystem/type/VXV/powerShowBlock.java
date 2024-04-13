@@ -28,17 +28,21 @@ public class powerShowBlock extends MessageBlock {
                     StringBuilder text = new StringBuilder();
 
                     for (var build : powerShowBuild) {
-                        text.append("<").append(build.message.toString()).append("> ").append("电力: ");
+                        text.append("<").append(build.message.toString()).append("> ").append(Core.bundle.get("category.power") + ": ");
                         text.append(build.power.graph.getPowerBalance() > 0 ? "+" : "").append(UI.formatAmount((long) (build.power.graph.getPowerBalance() * 60.0F)));
-                        text.append(" 存储: ");
-
+                        text.append(Core.bundle.format(
+                                "bar.powerstored",
+                                UI.formatAmount((long) build.power.graph.getLastPowerStored()),
+                                UI.formatAmount((long) build.power.graph.getLastCapacity())
+                        ));
+                        /*
                         if (build.power.graph.getLastCapacity() == 0) {
-                            text.append("无");
+                            text.append("0");
                         } else {
                             text.append(UI.formatAmount((long) build.power.graph.getLastPowerStored()));
                             text.append("/");
                             text.append(UI.formatAmount((long) build.power.graph.getLastCapacity()));
-                        }
+                        }*/
                         text.append("\n");
                     }
 

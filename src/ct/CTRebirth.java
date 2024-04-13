@@ -74,16 +74,11 @@ public class CTRebirth extends Mod {
                 .meta.version += "-" + "[violet]创世神3[] 版本：[yellow]"
                 + Vars.mods.getMod("ct").meta.version + "[]";
         */
-/*        LogicBlock {
-            @Override
-            public boolean canBreak (Tile tile){
-                return !privileged || state.rules.editor || state.playtestingMap != null;
-            }
-            {}}*/
+
         // Team.sharded.color.set(0.0F, 153.0F, 255.0F, 64.0F);//黄队伍颜色
         //Team.crux.color.set(79.0F, 181.0F, 103.0F, 255.0F);//红队伍颜色
-        //难度修改
 
+        //难度修改
         WorldDifficulty.init();//初始化难度buff
 
         Item1.load();
@@ -121,6 +116,33 @@ public class CTRebirth extends Mod {
 
     }
 
+    @Override
+    public void init() {
+
+        //区块名显示
+        Vars.ui.planet = new CT3PlanetDialog();
+        //跳波惩罚
+        //new Wave();
+        Events.on(EventType.ClientLoadEvent.class, e -> {
+            CT3InfoDialog.show();//开屏显示
+            loadPowerShow();//电力显示方块
+            CT3选择方块显示图标(); //选择方块显示图标
+            ctUpdateDialog.load();//更新检测
+            // Timer.schedule(CTUpdater::checkUpdate, 4);//檢測更新 旧版
+            new Wave();   //跳波惩罚
+        });
+
+
+        //科技树全显
+        CTResearchDialog dialog = new CTResearchDialog();
+        ResearchDialog research = Vars.ui.research;
+        research.shown(() -> {
+            dialog.show();
+            Objects.requireNonNull(research);
+            Time.runTask(1.0F, research::hide);
+        });
+
+    }
     public static void overrideVersion() {
         for (int i = 0; i < Vars.mods.list().size; i++) {
             Mods.LoadedMod mod = Vars.mods.list().get(i);
@@ -180,33 +202,7 @@ public class CTRebirth extends Mod {
 
     public Seq<String> BaiMingDan = new Seq<>();
 
-    @Override
-    public void init() {
 
-        //区块名显示
-        Vars.ui.planet = new CT3PlanetDialog();
-        //跳波惩罚
-        //new Wave();
-        Events.on(EventType.ClientLoadEvent.class, e -> {
-            CT3InfoDialog.show();//开屏显示
-            loadPowerShow();//电力显示方块
-            CT3选择方块显示图标(); //选择方块显示图标
-            ctUpdateDialog.load();//更新检测
-            // Timer.schedule(CTUpdater::checkUpdate, 4);//檢測更新 旧版
-            new Wave();   //跳波惩罚
-        });
-
-
-        //科技树全显
-        CTResearchDialog dialog = new CTResearchDialog();
-        ResearchDialog research = Vars.ui.research;
-        research.shown(() -> {
-            dialog.show();
-            Objects.requireNonNull(research);
-            Time.runTask(1.0F, research::hide);
-        });
-
-    }
 
 
     //选择方块显示图标

@@ -43,6 +43,7 @@ import rhino.ScriptableObject;
 import java.util.Objects;
 
 import static arc.Core.camera;
+import static ct.Asystem.type.VXV.powerShowBlock.loadPowerShow;
 import static mindustry.Vars.*;
 
 public class CTRebirth extends Mod {
@@ -181,19 +182,16 @@ public class CTRebirth extends Mod {
 
         //区块名显示
         Vars.ui.planet = new CT3PlanetDialog();
-        //更新检测
-        Events.on(EventType.ClientLoadEvent.class, e -> ctUpdateDialog.load());
         //跳波惩罚
-        new Wave();
-
-        //檢測更新 旧版
-        // Events.on(EventType.ClientLoadEvent.class, e -> Timer.schedule(CTUpdater::checkUpdate, 4));
-
-        //选择方块显示图标
-        Events.on(EventType.ClientLoadEvent.class, e -> CT3选择方块显示图标());
-
-        //开屏显示
-        Events.on(EventType.ClientLoadEvent.class, e -> CT3InfoDialog.show());
+        //new Wave();
+        Events.on(EventType.ClientLoadEvent.class, e -> {
+            CT3InfoDialog.show();//开屏显示
+            loadPowerShow();//电力显示方块
+            CT3选择方块显示图标(); //选择方块显示图标
+            ctUpdateDialog.load();//更新检测
+            // Timer.schedule(CTUpdater::checkUpdate, 4);//檢測更新 旧版
+            new Wave();   //跳波惩罚
+        });
 
 
         //科技树全显

@@ -82,16 +82,15 @@ public class UnitPortal extends Block {
 
         solid = false;
         update = true;
+
+        saveConfig = true;
+
         configurable = true;
         drawDisabled = true;
         destructible = true;
 
         config(Integer.class, (UnitPortalBlockBuild build, Integer i) -> {
-            if (i == -1) {
-                build.TargetBlock = null;
-            } else {
-                build.TargetBlock = (UnitPortalBlockBuild) Vars.world.build(i);
-            }
+            build.TargetPos = i;
         });
 
         buildType = UnitPortalBlockBuild::new;
@@ -124,22 +123,26 @@ public class UnitPortal extends Block {
     }
 
     public class UnitPortalBlockBuild extends Building {
-        public UnitPortalBlockBuild TargetBlock = null;
+        public Integer TargetPos = -1;
         public ObjectMap<Integer, Float> ObjTimer = new ObjectMap<>();
 
         @Override
+        public Integer config() {
+            return TargetPos;
+        }
+
+        @Override
         public boolean onConfigureBuildTapped(Building other) {
-            if (TargetBlock == null) {
+            if (TargetPos == -1) {
                 if (this.dst(other) <= LinkRange * tilesize && other != this) {
-                    if (other instanceof UnitPortalBlockBuild) {
-                        UnitPortalBlockBuild b = (UnitPortalBlockBuild) other;
+                    if (other instanceof UnitPortalBlockBuild b) {
                         configure(b.pos());
                         return false;
                     }
                 }
                 return true;
             } else {
-                if (TargetBlock == other) {
+                if (TargetPos != pos() || TargetPos == other.pos()) {
                     configure(-1);
                     return false;
                 }
@@ -151,7 +154,14 @@ public class UnitPortal extends Block {
         public void update() {
             super.update();
 
-            if (TargetBlock != null) {
+            if (TargetPos != -1) {
+                Building TargetBlock = Vars.world.build(TargetPos);
+
+                if (TargetBlock.team() != team()) {
+                    TargetPos = -1;
+                    return;
+                }
+
                 if (TransferAll) {
                     if (!ObjTimer.containsKey(0)) {
                         ObjTimer.put(0, 0f);
@@ -218,7 +228,9 @@ public class UnitPortal extends Block {
             Lines.circle(x, y, LinkRange * 8.0F);
             Draw.reset();
 
-            if (TargetBlock != null) {
+            if (TargetPos != -1) {
+                Building TargetBlock = Vars.world.build(TargetPos);
+
                 Drawf.square(TargetBlock.x, TargetBlock.y, TargetBlock.block().size * tilesize / 2f + 1f, Pal.place);
             }
         }
@@ -227,7 +239,9 @@ public class UnitPortal extends Block {
         public void drawConfigure() {
             Drawf.circles(x, y, this.block().size * tilesize / 2f + 1f + Mathf.absin(Time.time, 4f, 1f));
 
-            if (TargetBlock != null) {
+            if (TargetPos != -1) {
+                Building TargetBlock = Vars.world.build(TargetPos);
+
                 Drawf.square(TargetBlock.x, TargetBlock.y, TargetBlock.block().size * tilesize / 2f + 1f, Pal.place);
             }
         }
@@ -236,7 +250,9 @@ public class UnitPortal extends Block {
         public void draw() {
             super.draw();
 
-            if (TargetBlock != null) {
+            if (TargetPos != -1) {
+                Building TargetBlock = Vars.world.build(TargetPos);
+
                 Lines.stroke(1.0F);
 
                 Lines.stroke(3.0F, Pal.gray);
@@ -309,11 +325,7 @@ public class UnitPortal extends Block {
         public void write(Writes write) {
             super.write(write);
 
-            if (TargetBlock == null) {
-                write.i(-1);
-            } else {
-                write.i(TargetBlock.pos());
-            }
+            write.i(TargetPos);
 
             if (TransferAll) {
                 if (!ObjTimer.containsKey(0)) {
@@ -334,12 +346,7 @@ public class UnitPortal extends Block {
         public void read(Reads read, byte revision) {
             super.read(read, revision);
 
-            int BuildId = read.i();
-            if (BuildId == -1) {
-                TargetBlock = null;
-            } else {
-                TargetBlock = (UnitPortalBlockBuild) Vars.world.build(BuildId);
-            }
+            TargetPos = read.i();
 
             ObjTimer.clear();
             if (TransferAll) {

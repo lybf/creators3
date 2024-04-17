@@ -7,6 +7,7 @@ import arc.scene.ui.Slider;
 import arc.scene.ui.layout.Table;
 import arc.util.io.Reads;
 import arc.util.io.Writes;
+import ct.Asystem.type.VXV.EntityDraw;
 import mindustry.Vars;
 import mindustry.game.Teams;
 import mindustry.gen.Building;
@@ -109,6 +110,7 @@ public class DuplexCoreGenericCrafter extends CoreGenericCrafter {
                     if (!whetherItemsCanConsume()) return;
                     for (var output : outputItems) {
                         for (int i = 0; i < output.amount; i++) {
+                            EntityDraw.addItemIcon(x, y, output.item.fullIcon, output.amount, 0.3f);
                             if (items.get(output.item) < getMaximumAccepted(output.item))
                                 offload(output.item);
                         }

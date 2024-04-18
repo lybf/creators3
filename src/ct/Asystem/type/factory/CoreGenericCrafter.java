@@ -17,6 +17,7 @@ public class CoreGenericCrafter extends GenericCrafter {
     public CoreGenericCrafter(String name) {
         super(name);
     }
+
     public class CoreGenericCrafterBuilding extends GenericCrafterBuild {
         /*
          *dump items to core;
@@ -25,6 +26,7 @@ public class CoreGenericCrafter extends GenericCrafter {
         public boolean dump(Item todump) {
             if (this.block.hasItems && this.items.total() != 0 && (todump == null || this.items.has(todump))) {
                 CoreBlock.CoreBuild build = Vars.state.teams.get(team()).core();
+                if (build == null) return false;
                 if (build.acceptItem(this, todump)) {
                     build.handleItem(this, todump);
                     this.items().remove(todump, 1);

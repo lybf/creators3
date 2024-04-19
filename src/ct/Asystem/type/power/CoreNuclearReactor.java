@@ -34,7 +34,7 @@ public class CoreNuclearReactor extends NuclearReactor {
     @Override
     public void setBars() {
         super.setBars();
-        removeBar("heat");
+       // removeBar("heat");
     }
 
     public class CoreNuclearReactorBuild extends NuclearReactorBuild {
@@ -56,7 +56,7 @@ public class CoreNuclearReactor extends NuclearReactor {
             if (this.items.has(fuelItem)) {//自身有燃料时发电
 
                 int fuel = items.get(fuelItem);//燃料有多少（核心）
-                float fullness = (float) fuel / itemCapacity;
+                float fullness = (float) items().get(fuelItem) / itemCapacity;
                 if (fuel > 0 && enabled) {
                     heat += fullness * heating * Math.min(delta(), 4f);
                     productionEfficiency = (float) fuel / itemCapacity;//

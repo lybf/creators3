@@ -389,14 +389,25 @@ public class CreatorsUnitFactory extends UnitBlock {
 
         @Override
         public void onRemoved() {
+            removeLinkedUnits();
+            super.onRemoved();
+        }
+
+        public void removeLinkedUnits() {
+            if (unitMap.size == 0) return;
             unitMap.each((typeID, units) -> {
                 units.each(unit -> {
                     Unit unit2 = Groups.unit.getByID(unit);
                     if (unit2 == null) return;
-                    if (unit2.isValid())unit2.kill();
+                    if (unit2.isValid()) {
+                        if (!unit2.dead && !Vars.net.client()) {
+                            Call.unitDeath(unit);
+                        }
+                        unit2.killed();
+                        unit2.remove();
+                    }
                 });
             });
-            super.onRemoved();
         }
 
         @Override

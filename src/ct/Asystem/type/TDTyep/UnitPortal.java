@@ -1,4 +1,4 @@
-package ct.Asystem.type.VXV;
+package ct.Asystem.type.TDTyep;
 
 import arc.graphics.Color;
 import arc.graphics.g2d.Draw;

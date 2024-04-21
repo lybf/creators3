@@ -1,4 +1,4 @@
-package ct.Asystem.type.TDTyep;
+package ct.Asystem.type.VXV;
 
 import arc.graphics.Color;
 import arc.graphics.g2d.Draw;
@@ -157,7 +157,7 @@ public class UnitPortal extends Block {
             if (TargetPos != -1) {
                 Building TargetBlock = Vars.world.build(TargetPos);
 
-                if (TargetBlock.team() != team()) {
+                if (TargetBlock == null || TargetBlock.team() != team()) {
                     TargetPos = -1;
                     return;
                 }

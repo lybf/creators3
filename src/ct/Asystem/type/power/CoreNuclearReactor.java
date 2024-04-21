@@ -42,9 +42,6 @@ public class CoreNuclearReactor extends NuclearReactor {
 
         @Override
         public void updateTile() {
-            CoreBlock.CoreBuild coreBuild = team.core();
-            if (coreBuild == null) return;
-
             if (power.status > 0.99f) {//有电时可以从核心取得燃料
                 if (timer(timerTakeItem, takeItemDelay / timeScale)) {
                     if (consPower != null) consPower.requestedPower(this);
@@ -56,7 +53,7 @@ public class CoreNuclearReactor extends NuclearReactor {
             if (this.items.has(fuelItem)) {//自身有燃料时发电
 
                 int fuel = items.get(fuelItem);//燃料有多少（核心）
-                float fullness = (float) items().get(fuelItem) / itemCapacity;
+                float fullness = (float) fuel / itemCapacity;
                 if (fuel > 0 && enabled) {
                     heat += fullness * heating * Math.min(delta(), 4f);
                     productionEfficiency = (float) fuel / itemCapacity;//

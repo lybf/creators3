@@ -1,5 +1,6 @@
 package ct.Asystem.type.TDTyep;
 
+import arc.Core;
 import mindustry.Vars;
 import mindustry.content.Blocks;
 import mindustry.game.Team;
@@ -7,8 +8,10 @@ import mindustry.world.Block;
 import mindustry.world.Tile;
 import mindustry.world.blocks.defense.Wall;
 import mindustry.world.blocks.environment.Floor;
+import mindustry.world.blocks.storage.CoreBlock;
 
-import static mindustry.Vars.state;
+import static mindustry.Vars.*;
+import static mindustry.Vars.player;
 
 //己方的掉血墙
 public class TDsuicideWall extends Wall {
@@ -28,8 +31,6 @@ public class TDsuicideWall extends Wall {
     public TDsuicideWall(String name) {
         super(name);
         update = true;
-        health = 10000;
-        armor = 500;
         placeableLiquid = true;
         floor = (Floor) Blocks.water;//需要的地板
     }
@@ -52,19 +53,35 @@ public class TDsuicideWall extends Wall {
 
     @Override
     public boolean canPlaceOn(Tile tile, Team team, int rotation) {
+        CoreBlock.CoreBuild core = team.core();
         if (tile == null) return false;
         if (Vars.state.isEditor()) return true;
+        if ((!state.rules.infiniteResources && !core.items.has(requirements, state.rules.buildCostMultiplier)))
+            return false;
 
         tile.getLinkedTilesAs(this, tempTiles);
         return !tempTiles.contains(o -> o.floor() != floor);
     }
 
-    public Block 升级前置 = this;
+    @Override
+    public void drawPlace(int x, int y, int rotation, boolean valid) {
+
+        if (!canPlaceOn(world.tile(x, y), player.team(), rotation)) {
+
+            drawPlaceText(Core.bundle.get(
+
+                    (player.team().core() != null && player.team().core().items.has(requirements, state.rules.buildCostMultiplier)) || state.rules.infiniteResources ?
+                            "bar.floor" + floor.localizedName :
+                            "bar.noresources"
+            ), x, y, valid);
+        }
+    }
+/*    public Block 升级前置 = this;
 
     public boolean canReplace(Block other) {
         if (other.alwaysReplace) return true;
         return 升级前置 == null ? super.canReplace(other) : 升级前置 == other;
-    }
+    }*/
 
     /**
      * 不可拆
@@ -77,7 +94,8 @@ public class TDsuicideWall extends Wall {
     //生存模式不可拆
     @Override
     public boolean canBreak(Tile tile) {
-        return state.rules.editor || state.playtestingMap != null;
+        if (state.rules.editor || state.playtestingMap != null) return true;
+        return false;
     }
 }
 

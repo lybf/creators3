@@ -1,5 +1,6 @@
 package ct.Asystem.type.TDTyep;
 
+import arc.Core;
 import arc.struct.Seq;
 import mindustry.Vars;
 import mindustry.gen.Building;
@@ -16,9 +17,21 @@ import static mindustry.Vars.state;
 import static mindustry.type.ItemStack.with;
 
 public class TDBuffChange {
-    public static StatusEffect Buff = new StatusEffect("unitBuff") {{
-        show = false;
-    }};
+    public static StatusEffect Buff = new StatusEffect("unitBuff") {
+        {
+
+            localizedName = "unitBuff";
+            fullIcon = Core.atlas.find("ct-unitBuff");
+            uiIcon = Core.atlas.find("ct-unitBuff");
+            show = false;
+        }
+
+        @Override
+        public void loadIcon() {
+            fullIcon = Core.atlas.find("ct-unitBuff");
+            uiIcon = Core.atlas.find("ct-unitBuff");
+        }
+    };
 
     public static class BuffSpee extends Block {//速度更改
 

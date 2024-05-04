@@ -8,7 +8,7 @@ const shieldConsumer = (paramEntity) => cons(trait => {
 });
 const COLOR = Color.purple;
 const blockType = extend(ForceProjector, "nihility", {});
-blockType=size=3;
+blockType.size=3;
 lib.setBuildingSimple(blockType, ForceProjector.ForceBuild, {
     updateTile() {
         var phaseValid = this.block.findConsumer(cons => cons instanceof ConsumeItems).efficiency(this);

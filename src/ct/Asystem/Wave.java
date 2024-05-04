@@ -4,13 +4,16 @@ import arc.Core;
 import arc.Events;
 import arc.graphics.Color;
 import arc.math.Mathf;
+import arc.scene.Element;
 import arc.scene.event.Touchable;
 import arc.scene.ui.layout.Table;
+import arc.util.Align;
 import arc.util.Time;
 import mindustry.Vars;
 import mindustry.game.EventType;
 import mindustry.game.Team;
 import mindustry.ui.Styles;
+import mindustry.ui.dialogs.BaseDialog;
 
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -21,18 +24,29 @@ public class Wave {
 
     public Wave() {
         Events.on(EventType.WorldLoadEvent.class, (ea) -> {
+            Element skip = Vars.ui.hudGroup.find("skip");
             if (Vars.state.isCampaign() && !enable) {
                 enable = true;
-                Vars.ui.hudGroup.find("skip").clicked(() -> {
+                if (skip != null) {
+                    skip.clicked(() -> {
 
-                    float multiple = Float.parseFloat(Vars.state.rules.tags.get("增加敌对伤害生命倍率") == null ? "0.2" : Vars.state.rules.tags.get("增加敌对伤害生命倍率"));
-                    if (multiple >= 0) {
-                        Vars.state.rules.tags.put("增加敌对伤害生命倍率", String.valueOf(multiple + 0.2f));
-                    }
-                    Vars.state.rules.teams.get(Team.malis).unitDamageMultiplier = multiple;
-                    Vars.state.rules.teams.get(Team.malis).unitHealthMultiplier = multiple;
-                    showTips(displayTime, Core.bundle.get("warning.Wave") + String.format("%.2f", multiple * 10) + "%", Color.white, Color.red);
-                });
+                        float multiple = Float.parseFloat(Vars.state.rules.tags.get("增加敌对伤害生命倍率") == null ? "0.2" : Vars.state.rules.tags.get("增加敌对伤害生命倍率"));
+                        if (multiple >= 0) {
+                            Vars.state.rules.tags.put("增加敌对伤害生命倍率", String.valueOf(multiple + 0.2f));
+                        }
+                        Vars.state.rules.teams.get(Team.crux).unitDamageMultiplier = multiple;
+                        Vars.state.rules.teams.get(Team.crux).unitHealthMultiplier = multiple;
+                        showTips(displayTime, Core.bundle.get("warning.Wave") + String.format("%.2f", multiple * 10) + "%", Color.white, Color.red);
+                    });
+                }
+/*                else{
+                    Events.on(EventType.ClientLoadEvent.class, e -> {
+                        BaseDialog dialog = new BaseDialog("发现闪退风险");
+                        dialog.add("请关闭学术端特制界面在进入战役").left().growX().wrap().width(620).maxWidth(620).pad(4).labelAlign(Align.left);
+                        dialog.show();
+                    });
+
+                }*/
             }
         });
 

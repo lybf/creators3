@@ -5,7 +5,9 @@ import arc.graphics.Color;
 import arc.util.Nullable;
 import ct.Asystem.Evn2;
 import ct.Asystem.type.CT3UnitType;
+import ct.Asystem.type.TDTyep.TDBuffChange;
 import ct.Asystem.type.XVXSource;
+import ct.Asystem.type.waveRule;
 import mindustry.Vars;
 import mindustry.ai.types.BuilderAI;
 import mindustry.content.Fx;
@@ -45,6 +47,12 @@ public class SourceCodeModification_Sandbox {
         Blocks.  liquidSource.envDisabled = Evn2.标志1 | Env.terrestrial;
         Blocks.    liquidVoid.envDisabled = Evn2.标志1 | Env.terrestrial;*/
 
+        new waveRule("waveRule");
+
+        new TDBuffChange.Buff加盾("Shield");
+        new TDBuffChange.BuffHealth("Health");
+        new TDBuffChange.BuffSpee("Speed");
+        new TDBuffChange.BuffDmage("Damage");
 
         //沙盒全能物品源
         new XVXSource("Automatic-adaptation-source") {

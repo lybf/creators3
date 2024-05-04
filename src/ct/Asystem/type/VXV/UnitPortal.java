@@ -123,6 +123,7 @@ public class UnitPortal extends Block {
     }
 
     public class UnitPortalBlockBuild extends Building {
+
         public Integer TargetPos = -1;
         public ObjectMap<Integer, Float> ObjTimer = new ObjectMap<>();
 
@@ -133,6 +134,9 @@ public class UnitPortal extends Block {
 
         @Override
         public boolean onConfigureBuildTapped(Building other) {
+            if (Vars.player.team() != team()) {
+                return false;
+            }
             if (TargetPos == -1) {
                 if (this.dst(other) <= LinkRange * tilesize && other != this) {
                     if (other instanceof UnitPortalBlockBuild b) {
@@ -301,6 +305,7 @@ public class UnitPortal extends Block {
                 float sin = Mathf.absin(Time.time, 6f, 1f);
 
                 Drawf.arrow(
+
                         this.x, this.y,
                         TargetBlock.x, TargetBlock.y,
                         size * tilesize + sin,

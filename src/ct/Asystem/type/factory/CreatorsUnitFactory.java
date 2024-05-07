@@ -456,11 +456,10 @@ public class CreatorsUnitFactory extends UnitBlock {
             write.s(currentPlan);
             TypeIO.writeVecNullable(write, commandPos);
             //if (unitMap.isEmpty()) return;
-            if (unitMap.isEmpty()) {
+        /*    if (unitMap.isEmpty()) {
                 write.i(0);
                 return;
-            }
-            ;
+            }*/
             write.i(unitMap.size);
             unitMap.each((type, seq) -> {
                 write.i(type.id);

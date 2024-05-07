@@ -21,7 +21,7 @@ public class LinksSt0rageBlock extends StorageBlock {
         @Override
         public void updateTile() {
             Seq<Building> builds = new Seq<>();
-            proximity.forEach(building -> {
+            proximity.each(building -> {
                 if (building.block == block) builds.add(building);
             });
             builds.add(this);
@@ -29,11 +29,11 @@ public class LinksSt0rageBlock extends StorageBlock {
                 return;
             }
             ItemModule itemModule = new ItemModule();
-            builds.forEach(building -> itemModule.add(building.items));
+            builds.each(building -> itemModule.add(building.items));
 
             itemModule.each(((item, i) -> {
                 int average = i / builds.size;
-                builds.forEach(building -> {
+                builds.each(building -> {
                     if (building != this && items.get(item) - building.items.get(item) > 1 && building.items.get(item) < average) {
                         int amount = Math.min((items.get(item) - building.items.get(item)) / 2, average - building.items.get(item));
                         items.remove(item, amount);

@@ -81,9 +81,9 @@ public class WorldDifficulty {
 
     public static void UnitDraw(Unit unit) {
         if (unit.team == Vars.state.rules.waveTeam) {
-            cheat.healthMultiplier = unitHealthMulti(Core.settings.getInt("游戏难度"));
-            cheat.reloadMultiplier = reloadMulti(Core.settings.getInt("游戏难度"));
-            cheat.speedMultiplier = speedMulti(Core.settings.getInt("游戏难度"));
+            cheat.healthMultiplier = unitHealthMulti(Core.settings.getInt("游戏难度"));//血量
+            cheat.reloadMultiplier = reloadMulti(Core.settings.getInt("游戏难度"));//射速
+            cheat.speedMultiplier = speedMulti(Core.settings.getInt("游戏难度"));//移速
             unit.apply(cheat, 100f);
         }
 

@@ -11,6 +11,7 @@ import arc.scene.ui.Dialog;
 import arc.scene.ui.Label;
 import arc.scene.ui.Slider;
 import arc.scene.ui.layout.Table;
+import arc.util.Align;
 import mindustry.ui.Styles;
 
 import java.util.Objects;
@@ -32,14 +33,14 @@ public class SettingDifficultyDialog extends Dialog {
         add(container);
         container.row();
         container.button("关闭", this::hide).width(100).padTop(20);
+
     }
 
 
     private void addChangeDiffcutySlider() {
         Table table = new Table();
         Slider slider = new Slider(1, 4, 1, false);
-        slider.setValue(3);
-        slider.setValue(Core.settings.getFloat("游戏难度)", 3));
+        slider.setValue(Core.settings.getInt("游戏难度"));
         Label value = new Label("", Styles.outlineLabel);
         Table content = new Table();
         content.add("难度设置", Styles.outlineLabel).left().growX().wrap();
@@ -59,6 +60,7 @@ public class SettingDifficultyDialog extends Dialog {
         slider.change();
         table.stack(slider, content).width(Math.min(Core.graphics.getWidth() / 1.2f, 460f)).left().padTop(4f).get();
         table.row();
+        table.add(Core.bundle.get("TD难度调整说明")).left().growX().wrap().width(200).maxWidth(200).pad(4).labelAlign(Align.center).row();
         container.add(table);
     }
 

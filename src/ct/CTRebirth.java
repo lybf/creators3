@@ -12,10 +12,10 @@ import arc.util.Time;
 import arc.util.Timer;
 import ct.Asystem.CTUpdater;
 import ct.Asystem.Wave;
+import ct.Asystem.WorldDifficulty;
 import ct.Asystem.dialogs.CT3InfoDialog;
 import ct.Asystem.dialogs.CT3PlanetDialog;
 import ct.Asystem.type.CTResearchDialog;
-import ct.Asystem.type.UnitDeathReward;
 import ct.content.*;
 import ct.content.Effect.NewFx;
 import ct.content.chapter1.Item1;
@@ -24,17 +24,14 @@ import ct.content.chapter2.chapter2;
 import ct.content.chapter3.chapter3;
 import ct.ui.CT3ClassificationUi;
 import mindustry.Vars;
-import mindustry.content.Items;
-import mindustry.content.UnitTypes;
 import mindustry.game.EventType;
 import mindustry.graphics.Layer;
 import mindustry.mod.Mod;
+import mindustry.mod.Mods;
 import mindustry.mod.Scripts;
-import mindustry.type.ItemStack;
 import mindustry.type.Planet;
 import mindustry.type.UnitType;
 import mindustry.ui.dialogs.BaseDialog;
-import mindustry.ui.dialogs.PlanetDialog;
 import mindustry.ui.dialogs.ResearchDialog;
 import mindustry.world.Block;
 import mindustry.world.blocks.distribution.Sorter;
@@ -47,20 +44,25 @@ import rhino.ScriptableObject;
 import java.util.Objects;
 
 import static arc.Core.camera;
+import static ct.Asystem.type.VXV.powerShowBlock.loadPowerShow;
 import static mindustry.Vars.*;
 
 public class CTRebirth extends Mod {
-//healAmount=25 固定数量的块治疗
+
+
+//
 
     public CTRebirth() {
+
         //缩放
-        Vars.renderer.minZoom = 0.5F;
+        Vars.renderer.minZoom = 0.2F;
         Vars.renderer.maxZoom = 32;
 //蓝图大小
         Vars.maxSchematicSize = 128;
         //地图禁用建筑隐藏
         Events.on(EventType.WorldLoadEvent.class, event -> {
                     Vars.state.rules.hideBannedBlocks = true;
+
                 }
         );
         //
@@ -68,9 +70,16 @@ public class CTRebirth extends Mod {
     }
 
     public void loadContent() {
+  /*      Vars.mods.locateMod("ct")
+                .meta.version += "-" + "[violet]创世神3[] 版本：[yellow]"
+                + Vars.mods.getMod("ct").meta.version + "[]";
+        */
+
         // Team.sharded.color.set(0.0F, 153.0F, 255.0F, 64.0F);//黄队伍颜色
         //Team.crux.color.set(79.0F, 181.0F, 103.0F, 255.0F);//红队伍颜色
+
         //难度修改
+        WorldDifficulty.init();//初始化难度buff
 
         Item1.load();
         //CT3Item4.load();
@@ -85,13 +94,12 @@ public class CTRebirth extends Mod {
         chapter1.load();
         chapter2.load();
         chapter3.load();
-        // chapter4.load();
+        //chapter4.load();
         // chapter5.load();
 
         ItemX.load();
         Blocks_z.load();
         SourceCodeModification_Sandbox.load();
-
 
         new CT3ClassificationUi();
         Scripts scripts = Vars.mods.getScripts();
@@ -102,16 +110,46 @@ public class CTRebirth extends Mod {
         } catch (Exception var5) {
             Vars.ui.showException(var5);
         }
+        overrideVersion();//显示版本号
+        CreatorsModJS.DawnMods();//JS加载器
 
-        CreatorsModJS.DawnMods();
 
-        //单位奖励测试
-        unitDeathRewardTest();
     }
-    private void unitDeathRewardTest(){
-        UnitDeathReward.getInstance().init().add(
-                UnitTypes.mono, ItemStack.with(Items.copper,10,Items.lead,20)
-        );
+
+    @Override
+    public void init() {
+
+        //区块名显示
+        Vars.ui.planet = new CT3PlanetDialog();
+        //跳波惩罚
+        new Wave();
+        Events.on(EventType.ClientLoadEvent.class, e -> {
+            CT3InfoDialog.show();//开屏显示
+            loadPowerShow();//电力显示方块
+            CT3选择方块显示图标(); //选择方块显示图标
+            ctUpdateDialog.load();//更新检测
+            // Timer.schedule(CTUpdater::checkUpdate, 4);//檢測更新 旧版
+            //new Wave();   //跳波惩罚
+        });
+
+
+        //科技树全显
+        CTResearchDialog dialog = new CTResearchDialog();
+        ResearchDialog research = Vars.ui.research;
+        research.shown(() -> {
+            dialog.show();
+            Objects.requireNonNull(research);
+            Time.runTask(1.0F, research::hide);
+        });
+
+    }
+    public static void overrideVersion() {
+        for (int i = 0; i < Vars.mods.list().size; i++) {
+            Mods.LoadedMod mod = Vars.mods.list().get(i);
+            if (mod != null) {
+                mod.meta.description = Core.bundle.get("mod.ct.version") + mod.meta.version + "\n\n" + mod.meta.description;
+            }
+        }
     }
 
     public static boolean CTBlockBool = true;//原版蓝图系统解锁
@@ -164,44 +202,7 @@ public class CTRebirth extends Mod {
 
     public Seq<String> BaiMingDan = new Seq<>();
 
-    @Override
-    public void init() {
 
-
-        //跳波惩罚
-        new Wave();
-
-        //檢測更新
-        Events.on(EventType.ClientLoadEvent.class, e -> Timer.schedule(CTUpdater::checkUpdate, 4));
-
-        //选择方块显示图标
-        Events.on(EventType.ClientLoadEvent.class, e -> CT3选择方块显示图标());
-
-        //开屏显示
-        Events.on(EventType.ClientLoadEvent.class, e -> CT3InfoDialog.show());
-
-
-        //科技树全显
-        CTResearchDialog dialog = new CTResearchDialog();
-        ResearchDialog research = Vars.ui.research;
-        research.shown(() -> {
-            dialog.show();
-            Objects.requireNonNull(research);
-            Time.runTask(1.0F, research::hide);
-        });
-
-
-        //区块名显示 //有BUG 导致不能用发射台
-        CT3PlanetDialog planet2 = new CT3PlanetDialog();
-        PlanetDialog planet = Vars.ui.planet;
-        planet.shown(() -> {
-            planet2.show();
-            Objects.requireNonNull(planet);
-            Time.runTask(1.0F, planet::hide);
-        });
-
-
-    }
 
 
     //选择方块显示图标

@@ -1,6 +1,7 @@
 package ct.Asystem.type;
 
 import arc.Events;
+import arc.func.Cons;
 import mindustry.Vars;
 import mindustry.game.EventType;
 import mindustry.game.Team;
@@ -36,6 +37,8 @@ public class UnitDeathReward {
     //奖励配置
     public static HashMap<String, UnitDeathRewardConfiguration> configurations = new HashMap<>();
 
+    private static boolean initialized = false;//是否初始化过
+
     //配置类
     public static class UnitDeathRewardConfiguration {
         //单位
@@ -60,23 +63,38 @@ public class UnitDeathReward {
         return instance;
     }
 
+    Cons<EventType.UnitDestroyEvent> cons = (EventType.UnitDestroyEvent e) -> {
+        Team unitTeam = e.unit.team;
+        Team playerTeam = Vars.player.team();
+        //是同一个队伍时不触发
+        if (unitTeam == playerTeam || Vars.state.teams.get(Vars.player.team()).core() == null) return;
+        UnitDeathRewardConfiguration configuration = configurations.get(e.unit.type.name);
+        if (!Objects.isNull(configuration)) {
+            ItemModule items = Vars.state.teams.get(Vars.player.team()).core().items();
+            for (ItemStack itemStack : configuration.itemStacks) {
+                items.add(itemStack.item, itemStack.amount);
+            }
+        }
+    };
+
     //初始化
     public UnitDeathReward init() {
-        Events.on(EventType.UnitDestroyEvent.class, e -> {
-            Team unitTeam = e.unit.team;
-            Team playerTeam = Vars.player.team();
-            //是同一个队伍时不触发
-            if (unitTeam == playerTeam) return;
-            UnitDeathRewardConfiguration configuration = configurations.get(e.unit.type.name);
-            if (!Objects.isNull(configuration)) {
-                ItemModule items = Vars.state.teams.get(Vars.player.team()).core().items();
-                for (ItemStack itemStack : configuration.itemStacks) {
-                    items.add(itemStack.item, itemStack.amount);
-                }
-            }
-        });
+        if (!initialized) {
+            Events.on(EventType.UnitDestroyEvent.class, cons);
+            initialized = true;
+        }
         return instance;
     }
+
+    //移除应用，取消监听
+    public UnitDeathReward removeEvent() {
+        if (initialized) {
+            Events.remove(EventType.UnitDestroyEvent.class, cons);
+            initialized = false;
+        }
+        return instance;
+    }
+
 
     /*
      *添加奖励规则

@@ -2,7 +2,8 @@ package ct.content;
 
 import ct.Asystem.type.BlockLimit.GenericCrafterLimit;
 import ct.Asystem.type.LinksSt0rageBlock;
-import ct.Asystem.type.心灵控制术法;
+import ct.Asystem.type.BulletType.XinLingKongZhiZhiDan;
+import ct.Asystem.type.VXV.UnitPortal;
 import mindustry.content.Blocks;
 import mindustry.content.Items;
 import mindustry.type.Category;
@@ -22,6 +23,34 @@ public class Blocks_z {
 
 
     public static void load() {
+        new UnitPortal("单位传送门A") {{
+            TransferSpeed = 180;
+
+            TransferAll = true;
+            TransferType = false;
+
+            size = 4;
+            requirements(Category.defense, ItemStack.with(Items.copper, 1));
+
+            hasPower = true;
+            buildVisibility = BuildVisibility.sandboxOnly;
+            consumePower(10);
+        }};
+
+        new UnitPortal("单位传送门B") {{
+            TransferSpeed = 180;
+
+            TransferAll = false;
+            TransferType = true;
+
+            size = 4;
+            requirements(Category.defense, ItemStack.with(Items.copper, 1));
+            buildVisibility = BuildVisibility.sandboxOnly;
+            hasPower = true;
+            consumePower(10);
+        }};
+
+
         new GenericCrafterLimit.工厂前置限制("测试工厂1") {{
             requirements(Category.crafting, with(物品, 1));
             itemCapacity = 15;
@@ -65,7 +94,7 @@ public class Blocks_z {
             recoil = 2;//后座力动画
             reload = 200;//射速
             rotateSpeed = 10f;
-            shootType = new 心灵控制术法(30, 30) {{
+            shootType = new XinLingKongZhiZhiDan(30, 30) {{
                 chanceDeflect = 0.001f;
             }};
         }};

@@ -45,6 +45,7 @@ public class CT3CoreBlocks {
             class Build extends CoreBlock.CoreBuild {
                 @Override
                 public void damage(float damage) {
+
                 }
 
                 public void drawLight() {
@@ -113,7 +114,7 @@ public class CT3CoreBlocks {
             unitCapModifier = 0;
         }};
 
-        P5Core = new CTCoreBlock("P5Core") {{
+        P5Core = new CTCoreBlock("P5Core") {{//幻想工程的核心
             // localizedName = Core.bundle.get("block.core0");
             //description = Core.bundle.getOrNull("block.description.core0");
             requirements(Category.effect, BuildVisibility.editorOnly, with(copper, 1000, lead, 800));
@@ -127,5 +128,6 @@ public class CT3CoreBlocks {
             solid = false;//固体
             unitCapModifier = 6;
         }};
+
     }
 }

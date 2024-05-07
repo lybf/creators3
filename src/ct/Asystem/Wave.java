@@ -17,7 +17,7 @@ import mindustry.ui.dialogs.BaseDialog;
 
 import java.util.concurrent.atomic.AtomicReference;
 
-public class Wave {
+public class  Wave {
     public boolean enable = false;
 
     public int displayTime = 5;

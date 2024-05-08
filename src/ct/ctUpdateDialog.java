@@ -38,13 +38,19 @@ public class ctUpdateDialog {
     }
 
     //mod的name
-    private static final String[] modNames = {"ct", "cttd"};
+    private static final String[] modNames = {
+            "ct"
+            , "cttd"
+            //,"ct_fantasy_project"
+    };
 
     //设置github地址
     private static final ObjectMap<String, String> modUrlName = ObjectMap.of(
-            modNames[0], "no9527dada/creators3",
-            modNames[1], "no9527dada/CreatorTD"
-            // modNames[2], "???"
+            modNames[0], "no9527dada/creators3",//主篇
+            modNames[1], "no9527dada/CreatorTD"//塔防
+            // modNames[2], "no9527dada/CT3FantasyProject"//幻想工程
+            // modNames[3], "no9527dada/???"
+            // modNames[4], "no9527dada/creators"//创2
     );
 
     //检查更新的级别

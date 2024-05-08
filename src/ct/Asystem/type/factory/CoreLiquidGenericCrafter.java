@@ -29,7 +29,7 @@ public class CoreLiquidGenericCrafter extends DuplexCoreGenericCrafter {
     }
 
 
-    public class CoreGenericCrafterBuilding extends GenericCrafterBuild {
+    public class CoreGenericCrafterBuilding extends DuplexCoreGenericCrafterBuilding {
         public float timer;
 
         @Override

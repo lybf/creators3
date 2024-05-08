@@ -38,7 +38,6 @@ import mindustry.world.blocks.ItemSelection;
 import mindustry.world.blocks.payloads.Payload;
 import mindustry.world.blocks.payloads.UnitPayload;
 import mindustry.world.blocks.units.UnitBlock;
-import mindustry.world.blocks.units.UnitFactory;
 import mindustry.world.consumers.ConsumeItemDynamic;
 import mindustry.world.meta.Stat;
 
@@ -206,7 +205,7 @@ public class CreatorsUnitFactory extends UnitBlock {
     public class CreatorsUnitFactoryBuild extends UnitBuild {
         public int unitCount = unitLimit;
 
-        public ObjectMap<UnitType, IntSeq> unitMap = new ObjectMap();
+        public ObjectMap<UnitType, IntSeq> unitMap = new ObjectMap<>();
 
         public @Nullable Vec2 commandPos;
         public int currentPlan = -1;
@@ -355,9 +354,7 @@ public class CreatorsUnitFactory extends UnitBlock {
             table.row();
             table.table(null, main -> {
                 main.defaults().growX();
-                main.table(Tex.whiteui, title -> {
-                    title.add("Units");
-                }).color(Pal.gray);
+                main.table(Tex.whiteui, title -> title.add("Units")).color(Pal.gray);
                 main.row();
                 main.table(Tex.pane2, bars -> {
                     bars.defaults().growX().height(18).pad(4);
@@ -373,17 +370,17 @@ public class CreatorsUnitFactory extends UnitBlock {
 
         public void checkUnits() {
             if (unitMap.isEmpty()) return;
-            if (payload == null) return;
-            int payloadUnitID = payload.unit == null ? -1 : payload.unit.id;
-            if (payloadUnitID == -1) return;
             unitMap.each((type, units) -> {
-                for (int i = 0; i < units.size; i++) {
-                    int id = units.get(i);
+                units.each(id -> {
                     Unit u = Groups.unit.getByID(id);
-                    if (payloadUnitID != id && (u == null || !u.isValid())) {
-                        units.removeIndex(i);
+                    int payloadUnitId = -1;
+                    if (payload != null) {
+                        payloadUnitId = payload.unit == null ? -1 : payload.unit.id;
                     }
-                }
+                    if (u == null && payloadUnitId != id) {
+                        units.removeValue(id);
+                    }
+                });
             });
         }
 
@@ -398,7 +395,10 @@ public class CreatorsUnitFactory extends UnitBlock {
             unitMap.each((typeID, units) -> {
                 units.each(unit -> {
                     Unit unit2 = Groups.unit.getByID(unit);
-                    if (unit2 == null) return;
+                    if (unit2 == null) {
+                        units.removeValue(unit);
+                        return;
+                    }
                     if (unit2.isValid()) {
                         if (!unit2.dead && !Vars.net.client()) {
                             Call.unitDeath(unit);
@@ -456,10 +456,6 @@ public class CreatorsUnitFactory extends UnitBlock {
             write.s(currentPlan);
             TypeIO.writeVecNullable(write, commandPos);
             //if (unitMap.isEmpty()) return;
-        /*    if (unitMap.isEmpty()) {
-                write.i(0);
-                return;
-            }*/
             write.i(unitMap.size);
             unitMap.each((type, seq) -> {
                 write.i(type.id);
@@ -505,12 +501,17 @@ public class CreatorsUnitFactory extends UnitBlock {
             super.drawSelect();
             if (unitMap.isEmpty()) return;
             unitMap.each((typeID, units) -> {
-                units.each(unit -> {
-                    Unit unit2 = Groups.unit.getByID(unit);
-                    if (unit2 == null) return;
-//                    Log.info("try draw unit link {unitid:" + unit2.id + "}");
-                    if (!unit2.isValid()) return;
-                    this.drawUnitLink(unit2);
+                units.each(id -> {
+                    Unit u = Groups.unit.getByID(id);
+                    int payloadUnitId = -1;
+                    if (payload != null) {
+                        payloadUnitId = payload.unit == null ? -1 : payload.unit.id;
+                    }
+                    if (u == null && payloadUnitId != id) {
+                        units.removeValue(id);
+                    }
+                    if (u == null || !u.isValid()) return;
+                    this.drawUnitLink(u);
                 });
             });
         }

@@ -1,5 +1,6 @@
 package ct.Asystem.type;
 /*电力力场*/
+//神魂版
 
 import arc.graphics.Color;
 import arc.graphics.g2d.Draw;

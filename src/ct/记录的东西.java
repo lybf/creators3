@@ -1,4 +1,4 @@
-package ct.ui;
+package ct;
 
 public class 记录的东西 {
 /*

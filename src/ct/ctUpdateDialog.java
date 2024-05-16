@@ -5,14 +5,13 @@ import arc.Events;
 import arc.files.Fi;
 import arc.func.Floatc;
 import arc.graphics.Color;
-import arc.scene.ui.Dialog;
 import arc.scene.ui.TextButton;
 import arc.struct.ObjectMap;
 import arc.struct.Seq;
 import arc.util.*;
 import arc.util.io.Streams;
 import arc.util.serialization.Jval;
-import ct.Asystem.dialogs.CT3InfoDialog;
+import ct.ui.dialogs.CT3InfoDialog;
 import mindustry.Vars;
 import mindustry.game.EventType;
 import mindustry.mod.Mods;
@@ -22,7 +21,7 @@ import mindustry.ui.dialogs.BaseDialog;
 import java.util.Objects;
 
 import static arc.Core.settings;
-import static ct.Asystem.dialogs.CT3InfoDialog.ct3info;
+import static ct.ui.dialogs.CT3InfoDialog.ct3info;
 import static mindustry.Vars.*;
 import static mindustry.Vars.ghApi;
 
@@ -41,6 +40,7 @@ public class ctUpdateDialog {
     private static final String[] modNames = {
             "ct"
             , "cttd"
+            // ,"ctmusic"
             //,"ct_fantasy_project"
     };
 
@@ -48,6 +48,7 @@ public class ctUpdateDialog {
     private static final ObjectMap<String, String> modUrlName = ObjectMap.of(
             modNames[0], "no9527dada/creators3",//主篇
             modNames[1], "no9527dada/CreatorTD"//塔防
+            //  modNames[2], "no9527dada/CT3Music"//BGM
             // modNames[2], "no9527dada/CT3FantasyProject"//幻想工程
             // modNames[3], "no9527dada/???"
             // modNames[4], "no9527dada/creators"//创2

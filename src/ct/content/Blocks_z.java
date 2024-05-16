@@ -1,6 +1,8 @@
 package ct.content;
 
 import ct.Asystem.type.BlockLimit.GenericCrafterLimit;
+import ct.Asystem.type.IightningForceProjector;
+import ct.Asystem.type.LaserMassDriver;
 import ct.Asystem.type.LinksSt0rageBlock;
 import ct.Asystem.type.BulletType.XinLingKongZhiZhiDan;
 import ct.Asystem.type.VXV.UnitPortal;
@@ -23,6 +25,17 @@ public class Blocks_z {
 
 
     public static void load() {
+        new LaserMassDriver("激光质量驱动器") {{
+            buildVisibility = BuildVisibility.sandboxOnly;
+            range = 230 * 8;
+            requirements(Category.defense, ItemStack.with(物品, 1));
+            size = 5;
+        }};
+        new IightningForceProjector("雷劫仪") {{
+            radius = 55 * 8;
+            buildVisibility = BuildVisibility.sandboxOnly;
+            requirements(Category.defense, ItemStack.with(物品, 1));
+        }};
         new UnitPortal("单位传送门A") {{
             TransferSpeed = 180;
 
@@ -30,7 +43,7 @@ public class Blocks_z {
             TransferType = false;
 
             size = 4;
-            requirements(Category.defense, ItemStack.with(Items.copper, 1));
+            requirements(Category.defense, ItemStack.with(物品, 1));
 
             hasPower = true;
             buildVisibility = BuildVisibility.sandboxOnly;
@@ -44,7 +57,7 @@ public class Blocks_z {
             TransferType = true;
 
             size = 4;
-            requirements(Category.defense, ItemStack.with(Items.copper, 1));
+            requirements(Category.defense, ItemStack.with(物品, 1));
             buildVisibility = BuildVisibility.sandboxOnly;
             hasPower = true;
             consumePower(10);

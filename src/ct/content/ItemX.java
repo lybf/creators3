@@ -15,6 +15,11 @@ public class ItemX {
             // frames = 5;// >0时会有有动画
             // transitionFrames = 1;//每帧之间生成的过渡帧的数量
             //frameTime = 10f;//贴图变换之间的时间，默认5
+/*            for(var i=6;i!=0;i--){
+                addFrame(1,i*5f);
+                addFrame(2,i*5f);
+            }
+            frameReloadTime=300;*/
         }};
     }
 }

@@ -5,16 +5,17 @@ import arc.Events;
 import arc.graphics.g2d.Draw;
 import arc.graphics.g2d.TextureRegion;
 import arc.scene.ui.ImageButton;
+import arc.scene.ui.layout.Table;
 import arc.struct.ObjectMap;
 import arc.struct.ObjectSet;
 import arc.struct.Seq;
 import arc.util.Time;
-import arc.util.Timer;
-import ct.Asystem.CTUpdater;
 import ct.Asystem.Wave;
 import ct.Asystem.WorldDifficulty;
-import ct.Asystem.dialogs.CT3InfoDialog;
-import ct.Asystem.dialogs.CT3PlanetDialog;
+import ct.Asystem.type.VXV.SpawnDraw;
+import ct.ui.UnemFragment;
+import ct.ui.dialogs.CT3InfoDialog;
+import ct.ui.dialogs.CT3PlanetDialog;
 import ct.Asystem.type.CTResearchDialog;
 import ct.content.*;
 import ct.content.Effect.NewFx;
@@ -23,6 +24,7 @@ import ct.content.chapter1.chapter1;
 import ct.content.chapter2.chapter2;
 import ct.content.chapter3.chapter3;
 import ct.ui.CT3ClassificationUi;
+import ct.ui.dialogs.CT3function;
 import mindustry.Vars;
 import mindustry.game.EventType;
 import mindustry.graphics.Layer;
@@ -31,6 +33,7 @@ import mindustry.mod.Mods;
 import mindustry.mod.Scripts;
 import mindustry.type.Planet;
 import mindustry.type.UnitType;
+import mindustry.ui.Styles;
 import mindustry.ui.dialogs.BaseDialog;
 import mindustry.ui.dialogs.ResearchDialog;
 import mindustry.world.Block;
@@ -44,6 +47,7 @@ import rhino.ScriptableObject;
 import java.util.Objects;
 
 import static arc.Core.camera;
+import static arc.util.Reflect.cons;
 import static ct.Asystem.type.VXV.powerShowBlock.loadPowerShow;
 import static mindustry.Vars.*;
 
@@ -110,15 +114,17 @@ public class CTRebirth extends Mod {
         } catch (Exception var5) {
             Vars.ui.showException(var5);
         }
+
         overrideVersion();//显示版本号
         CreatorsModJS.DawnMods();//JS加载器
 
 
     }
 
+    //public UnemFragment u=new UnemFragment();
     @Override
     public void init() {
-
+        new SpawnDraw();//不能用
         //区块名显示
         Vars.ui.planet = new CT3PlanetDialog();
         //跳波惩罚
@@ -130,9 +136,30 @@ public class CTRebirth extends Mod {
             ctUpdateDialog.load();//更新检测
             // Timer.schedule(CTUpdater::checkUpdate, 4);//檢測更新 旧版
             //new Wave();   //跳波惩罚
+
+
+            //首页主功能按钮
+            CT3function.show();
+            ImageButton imagebutton = CreatorsIcon("function", Styles.defaulti, CT3function.功能图标UI);
+            Vars.ui.menuGroup.fill(t -> {
+                if (mobile) {
+                    t.add(imagebutton).update(b -> b.color.fromHsv(Time.time % 360, 1, 1)).size(250.0f);//电脑
+                    t.bottom();
+                } else {
+                    t.add(imagebutton).update(b -> b.color.fromHsv(Time.time % 360, 1, 1)).size(120.0f);//手机
+                    t.left().bottom();
+                }
+            });
+
         });
+        //动态logo
+        try {
+            Class arc = Class.forName("mindustry.arcModule.ARCVars");
+        } catch (ClassNotFoundException e) {
 
-
+            Vars.ui.menufrag = new UnemFragment();
+            new UnemFragment().build(ui.menuGroup);
+        }
         //科技树全显
         CTResearchDialog dialog = new CTResearchDialog();
         ResearchDialog research = Vars.ui.research;
@@ -143,6 +170,7 @@ public class CTRebirth extends Mod {
         });
 
     }
+
     public static void overrideVersion() {
         for (int i = 0; i < Vars.mods.list().size; i++) {
             Mods.LoadedMod mod = Vars.mods.list().get(i);
@@ -201,8 +229,6 @@ public class CTRebirth extends Mod {
     public final static Seq<Runnable> BlackListRun = new Seq<>();
 
     public Seq<String> BaiMingDan = new Seq<>();
-
-
 
 
     //选择方块显示图标

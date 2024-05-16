@@ -1,9 +1,10 @@
-package ct.Asystem.type;
+package ct.ui;
 
 import arc.Core;
 import arc.graphics.Color;
 import arc.util.Align;
 import mindustry.ui.dialogs.BaseDialog;
+//捐赠码
 
 public class Award9527 extends BaseDialog {
     public Award9527() {

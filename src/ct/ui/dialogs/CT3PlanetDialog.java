@@ -1,4 +1,4 @@
-package ct.Asystem.dialogs;
+package ct.ui.dialogs;
 //区块名显示
 
 import arc.Core;

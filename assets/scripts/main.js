@@ -12,9 +12,8 @@ importPackage(CreatorsJavaPack.Asystem.dialogs)
 importPackage(CreatorsJavaPack.Asystem.type)
 importPackage(CreatorsJavaPack.content)
 importPackage(CreatorsJavaPack.ui)
+importPackage(CreatorsJavaPack.ui.dialogs)
 importPackage(CreatorsJavaPack.content.chapter4)
-
-
 
 
 CreatorsModJS.RunName.add("ct")

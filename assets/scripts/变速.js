@@ -1,4 +1,25 @@
 Events.on(EventType.ClientLoadEvent, cons(e => {
+
+/*    var dialog = new BaseDialog("[yellow]Creators[#7bebf2] " + "[] Adapt 140+" );
+    dialog.buttons.defaults().size(210, 64);
+    dialog.cont.pane(cons(t => {
+    }));
+
+       //首页主功能按钮
+ const imagebutton = CTRebirth.CreatorsIcon("function", Styles.defaulti, dialog)
+ Vars.ui.menuGroup.fill(cons(t => {
+     if (Vars.mobile) {
+         t.add(imagebutton).size(80.0);
+         t.bottom();
+     } else {
+         t.add(imagebutton).size(80.0);
+         t.left().bottom()
+     };
+ }));*/
+
+
+
+
     const kaite = new ImageButton.ImageButtonStyle();
     kaite.down = Tex.buttonDown;
     kaite.up = Styles.black3;
@@ -6,6 +27,7 @@ Events.on(EventType.ClientLoadEvent, cons(e => {
     kaite.imageDisabledColor = Color.gray;
     kaite.imageUpColor = Color.white;
     kaite.disabled = Tex.buttonDisabled;
+
 Vars.ui.hudGroup.fill(cons(table => {
     let shown = false;
     table.button(Icon.downSmall, Styles.defaulti, () => {
@@ -24,7 +46,7 @@ Vars.ui.hudGroup.fill(cons(table => {
         }
 
         addButton(Icon.home, kaite, () => {
-            CT3InfoDialog.show();
+            CT3function.功能图标UI.show();
         }, null, "9527shouye"); // 首页
 
         addButton(Icon.refresh, kaite, () => {

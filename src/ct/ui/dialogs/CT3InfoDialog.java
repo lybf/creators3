@@ -1,11 +1,14 @@
-package ct.Asystem.dialogs;
+package ct.ui.dialogs;
 
 import arc.Core;
 import arc.graphics.Color;
+import arc.scene.ui.TextButton;
 import arc.util.Align;
+import arc.util.Time;
 import ct.Asystem.WorldDifficulty;
 import ct.ctUpdateDialog;
 import mindustry.Vars;
+import mindustry.gen.Icon;
 import mindustry.mod.Mods;
 import mindustry.ui.dialogs.BaseDialog;
 
@@ -85,7 +88,7 @@ public class CT3InfoDialog {
                 }}.show();
             })).size(150, 64);
             String CT3TD按钮 = Core.bundle.format("CT3TD按钮");
-            buttons.button(CT3TD按钮, (() -> {
+            buttons.button(CT3TD按钮, Icon.github, (() -> {
                 new BaseDialog("[yellow]Creators[#7bebf2] " + version + "\n" + CT3framer + "\nQQ群:909130592") {{
                     addCloseListener();//按esc关闭
                     buttons.defaults().size(210, 64);
@@ -98,7 +101,7 @@ public class CT3InfoDialog {
                                 Vars.ui.showErrorMessage("@linkfail");
                                 Core.app.setClipboardText(QQ群2);
                             }
-                        })).size(510, 64).row();
+                        })).update(b -> b.color.fromHsv(Time.time % 360, 1, 1)).size(250.0f, 50).row();
 
                     /* table.button(Core.bundle.format("TD网盘"), (() -> {
                             if (!Core.app.openURI(TD网盘)) {
@@ -109,9 +112,12 @@ public class CT3InfoDialog {
 
                     }));
                 }}.show();
-            })).size(150, 64);
+            })).tooltip("更多可游玩内容").with(b -> {
+                TextButton.TextButtonStyle s = new TextButton.TextButtonStyle(b.getStyle());
+                s.fontColor = b.color;
+                b.setStyle(s);
+            }).size(150, 64).update(b -> b.color.fromHsv(Time.time % 360, 1, 1));
         }};
         ct3info.show();
-
     }
 }

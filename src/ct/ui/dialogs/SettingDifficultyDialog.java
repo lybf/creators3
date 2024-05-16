@@ -1,9 +1,9 @@
-package ct.Asystem.dialogs;
+package ct.ui.dialogs;
 /*
  *@Author:LYBF
  *@Date  :2023/12/24
  */
-
+//难度
 import arc.Core;
 import arc.func.Floatc;
 import arc.scene.event.Touchable;

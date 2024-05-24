@@ -5,7 +5,6 @@ import arc.Events;
 import arc.graphics.g2d.Draw;
 import arc.graphics.g2d.TextureRegion;
 import arc.scene.ui.ImageButton;
-import arc.scene.ui.layout.Table;
 import arc.struct.ObjectMap;
 import arc.struct.ObjectSet;
 import arc.struct.Seq;
@@ -47,7 +46,6 @@ import rhino.ScriptableObject;
 import java.util.Objects;
 
 import static arc.Core.camera;
-import static arc.util.Reflect.cons;
 import static ct.Asystem.type.VXV.powerShowBlock.loadPowerShow;
 import static mindustry.Vars.*;
 
@@ -124,7 +122,9 @@ public class CTRebirth extends Mod {
     //public UnemFragment u=new UnemFragment();
     @Override
     public void init() {
-        new SpawnDraw();//不能用
+        //显示怪物路径
+        SpawnDraw.init();
+        SpawnDraw.setEnable(true);
         //区块名显示
         Vars.ui.planet = new CT3PlanetDialog();
         //跳波惩罚
@@ -143,10 +143,10 @@ public class CTRebirth extends Mod {
             ImageButton imagebutton = CreatorsIcon("function", Styles.defaulti, CT3function.功能图标UI);
             Vars.ui.menuGroup.fill(t -> {
                 if (mobile) {
-                    t.add(imagebutton).update(b -> b.color.fromHsv(Time.time % 360, 1, 1)).size(250.0f);//电脑
+                    t.add(imagebutton).update(b -> b.color.fromHsv(Time.time % 360, 1, 1)).size(50);//手机
                     t.bottom();
                 } else {
-                    t.add(imagebutton).update(b -> b.color.fromHsv(Time.time % 360, 1, 1)).size(120.0f);//手机
+                    t.add(imagebutton).update(b -> b.color.fromHsv(Time.time % 360, 1, 1)).size(120.0f);//电脑
                     t.left().bottom();
                 }
             });

@@ -14,6 +14,8 @@ import mindustry.ui.dialogs.BaseDialog;
 
 import static mindustry.Vars.ui;
 
+
+//首页
 public class CT3InfoDialog {
     public static BaseDialog ct3info;
 
@@ -87,21 +89,53 @@ public class CT3InfoDialog {
                     }));
                 }}.show();
             })).size(150, 64);
-            String CT3TD按钮 = Core.bundle.format("CT3TD按钮");
-            buttons.button(CT3TD按钮, Icon.github, (() -> {
+            buttons.button("DLC", Icon.github, (() -> {
                 new BaseDialog("[yellow]Creators[#7bebf2] " + version + "\n" + CT3framer + "\nQQ群:909130592") {{
                     addCloseListener();//按esc关闭
                     buttons.defaults().size(210, 64);
                     buttons.button("@close", (this::hide)).size(100, 64);//关闭按钮
                     cont.pane((table -> {
-                        table.add(Core.bundle.format("CT3TD说明")).left().growX().wrap().width(620).maxWidth(620).pad(4).labelAlign(Align.left).row();
-                        table.image().color(Color.valueOf("69dcee")).fillX().height(3).pad(3).row();
+                        table.button("@CT3HX", (() -> {//幻想
+                            new BaseDialog("[yellow]Creators[#7bebf2] " + version + "\n" + CT3framer + "\nQQ群:909130592") {{
+                                addCloseListener();//按esc关闭
+                                //defaults().size(210, 64);
+                                buttons.button("@close", (this::hide)).size(100, 64);//关闭按钮
+                                cont.pane((a -> {
+                                    a.add(Core.bundle.format("CT3HX说明")).left().growX().wrap().width(620).maxWidth(620).pad(4).labelAlign(Align.left).row();
+                                    a.image().color(Color.valueOf("69dcee")).fillX().height(3).pad(3).row();
+                                    a.button(Core.bundle.format("QQ群2"), (() -> {
+                                        if (!Core.app.openURI(QQ群2)) {
+                                            Vars.ui.showErrorMessage("@linkfail");
+                                            Core.app.setClipboardText(QQ群2);
+                                        }
+                                    })).update(b -> b.color.fromHsv(Time.time % 360, 1, 1)).size(250.0f, 50).row();
+                                }));
+                            }}.show();
+                        })).size(150, 50);
+                        table.button("@CT3TD", (() -> {//塔防
+                            new BaseDialog("[yellow]Creators[#7bebf2] " + version + "\n" + CT3framer + "\nQQ群:909130592") {{
+                                addCloseListener();//按esc关闭
+                                //defaults().size(210, 64);
+                                buttons.button("@close", (this::hide)).size(100, 64);//关闭按钮
+                                cont.pane((c -> {
+                                    c.add(Core.bundle.format("CT3TD说明")).left().growX().wrap().width(620).maxWidth(620).pad(4).labelAlign(Align.left).row();
+                                    c.image().color(Color.valueOf("69dcee")).fillX().height(3).pad(3).row();
+                                    c.button(Core.bundle.format("QQ群2"), (() -> {
+                                        if (!Core.app.openURI(QQ群2)) {
+                                            Vars.ui.showErrorMessage("@linkfail");
+                                            Core.app.setClipboardText(QQ群2);
+                                        }
+                                    })).update(b -> b.color.fromHsv(Time.time % 360, 1, 1)).size(250.0f, 50).row();
+                                }));
+                            }}.show();
+                        })).size(150, 50).row();
+                        table.image().color(Color.valueOf("69dcee")).fillX().height(3).pad(3).padLeft(0).row();
                         table.button(Core.bundle.format("QQ群2"), (() -> {
                             if (!Core.app.openURI(QQ群2)) {
                                 Vars.ui.showErrorMessage("@linkfail");
                                 Core.app.setClipboardText(QQ群2);
                             }
-                        })).update(b -> b.color.fromHsv(Time.time % 360, 1, 1)).size(250.0f, 50).row();
+                        })).update(b -> b.color.fromHsv(Time.time % 360, 1, 1)).size(250.0f, 50).padLeft(0).row();
 
                     /* table.button(Core.bundle.format("TD网盘"), (() -> {
                             if (!Core.app.openURI(TD网盘)) {

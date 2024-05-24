@@ -235,7 +235,9 @@ public class UnitPortal extends Block {
             if (TargetPos != -1) {
                 Building TargetBlock = Vars.world.build(TargetPos);
 
-                Drawf.square(TargetBlock.x, TargetBlock.y, TargetBlock.block().size * tilesize / 2f + 1f, Pal.place);
+                if (TargetPos == null) {
+                    Drawf.square(TargetBlock.x, TargetBlock.y, TargetBlock.block().size * tilesize / 2f + 1f, Pal.place);
+                }
             }
         }
 
@@ -246,7 +248,9 @@ public class UnitPortal extends Block {
             if (TargetPos != -1) {
                 Building TargetBlock = Vars.world.build(TargetPos);
 
-                Drawf.square(TargetBlock.x, TargetBlock.y, TargetBlock.block().size * tilesize / 2f + 1f, Pal.place);
+                if (TargetPos == null) {
+                    Drawf.square(TargetBlock.x, TargetBlock.y, TargetBlock.block().size * tilesize / 2f + 1f, Pal.place);
+                }
             }
         }
 
@@ -304,25 +308,28 @@ public class UnitPortal extends Block {
 
                 float sin = Mathf.absin(Time.time, 6f, 1f);
 
-                Drawf.arrow(
+                if (TargetBlock != null) {
+                    Drawf.arrow(
 
-                        this.x, this.y,
-                        TargetBlock.x, TargetBlock.y,
-                        size * tilesize + sin,
-                        5f + sin,
-                        Pal.accent
-                );
+                            this.x, this.y,
+                            TargetBlock.x, TargetBlock.y,
+                            size * tilesize + sin,
+                            5f + sin,
+                            Pal.accent
+                    );
 
-                float angle = Angles.angle(x, y, TargetBlock.x, TargetBlock.y);
-                float space = 2.0F;
-                Tmp.v1.set(this.x, this.y).sub(TargetBlock.x, TargetBlock.y).limit(size * tilesize + sin);
-                float vx = Tmp.v1.x + TargetBlock.x;
-                float vy = Tmp.v1.y + TargetBlock.y;
-                Draw.color(Pal.gray);
-                Fill.poly(vx, vy, 3, 5f + sin + space, angle);
-                Draw.color(Pal.place);
-                Fill.poly(vx, vy, 3, 5f + sin, angle);
-                Draw.color();
+
+                    float angle = Angles.angle(x, y, TargetBlock.x, TargetBlock.y);
+                    float space = 2.0F;
+                    Tmp.v1.set(this.x, this.y).sub(TargetBlock.x, TargetBlock.y).limit(size * tilesize + sin);
+                    float vx = Tmp.v1.x + TargetBlock.x;
+                    float vy = Tmp.v1.y + TargetBlock.y;
+                    Draw.color(Pal.gray);
+                    Fill.poly(vx, vy, 3, 5f + sin + space, angle);
+                    Draw.color(Pal.place);
+                    Fill.poly(vx, vy, 3, 5f + sin, angle);
+                    Draw.color();
+                }
             }
         }
 

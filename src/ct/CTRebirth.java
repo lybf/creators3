@@ -11,6 +11,7 @@ import arc.struct.Seq;
 import arc.util.Time;
 import ct.Asystem.Wave;
 import ct.Asystem.WorldDifficulty;
+import ct.content.CTFragShader;
 import ct.Asystem.type.VXV.SpawnDraw;
 import ct.ui.UnemFragment;
 import ct.ui.dialogs.CT3InfoDialog;
@@ -88,7 +89,6 @@ public class CTRebirth extends Mod {
         // 资源5.load();
         Item0.load();
 
-
         CTAttributes.load();
         Floors.load();
         NewFx.load();
@@ -98,19 +98,19 @@ public class CTRebirth extends Mod {
         chapter3.load();
         //chapter4.load();
         // chapter5.load();
-
+        CTFragShader.load();
         ItemX.load();
         Blocks_z.load();
         SourceCodeModification_Sandbox.load();
 
         new CT3ClassificationUi();
-        Scripts scripts = Vars.mods.getScripts();
+        Scripts scripts = mods.getScripts();
         Scriptable scope = scripts.scope;
         try {
             Object obj = Context.javaToJS(new CT3ClassificationUi(), scope);
             ScriptableObject.putProperty(scope, "CT3ClassificationUi", obj);
         } catch (Exception var5) {
-            Vars.ui.showException(var5);
+            ui.showException(var5);
         }
 
         overrideVersion();//显示版本号

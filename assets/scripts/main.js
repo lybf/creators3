@@ -19,7 +19,7 @@ importPackage(CreatorsJavaPack.content.chapter4)
 CreatorsModJS.RunName.add("ct")
 CreatorsModJS.DawnRun.add(run(() => {
 	require('变速');
-	require('nihility');
+	require('nihility');//虚无护盾
 // require('UnitBlocks');
 // require('环保生产厂');
 // require('zuantou');
@@ -33,8 +33,10 @@ CreatorsModJS.DawnRun.add(run(() => {
 	 Vars.mods.importMod(fi);
  };*/
 }));
-
-
-
-
+UnitTypes.gamma.speed = 7;
+UnitTypes.beta.speed = 5.5;
+UnitTypes.alpha.speed = 4;
+UnitTypes.gamma.armor = 6f;
+UnitTypes.beta.armor = 4f;
+UnitTypes.alpha.armor = 2f;
 

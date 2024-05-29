@@ -14,14 +14,7 @@ import mindustry.world.blocks.environment.StaticWall;
 import static mindustry.content.Blocks.bluemat;
 
 public class Floors {
-    public static Fi shaders = Vars.mods.locateMod("ct").root.child("CTshaders");
-    public static Shaders.SurfaceShader s1 = new Shaders.SurfaceShader(Shaders.getShaderFi("screenspace.vert").readString(),
-            shaders.child("cryofluid2.frag").readString());
-    public static CacheLayer.ShaderLayer m = new CacheLayer.ShaderLayer(s1);
 
-    static {
-        CacheLayer.add(m);
-    }
 
     public static Floor 烟冰地板, 烟冰地板snow, 发光地板1, 发光地板2, 发光地板3, 发光地板4, 发光地板5;
     public static Seaweed 树;

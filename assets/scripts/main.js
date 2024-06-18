@@ -12,6 +12,7 @@ importPackage(CreatorsJavaPack.Asystem.dialogs)
 importPackage(CreatorsJavaPack.Asystem.type)
 importPackage(CreatorsJavaPack.content)
 importPackage(CreatorsJavaPack.ui)
+importPackage(CreatorsJavaPack.Asystem.type.VXV)
 importPackage(CreatorsJavaPack.ui.dialogs)
 importPackage(CreatorsJavaPack.content.chapter4)
 
@@ -36,7 +37,7 @@ CreatorsModJS.DawnRun.add(run(() => {
 UnitTypes.gamma.speed = 7;
 UnitTypes.beta.speed = 5.5;
 UnitTypes.alpha.speed = 4;
-UnitTypes.gamma.armor = 6f;
-UnitTypes.beta.armor = 4f;
-UnitTypes.alpha.armor = 2f;
+UnitTypes.gamma.armor = 6;
+UnitTypes.beta.armor = 4;
+UnitTypes.alpha.armor = 2;
 

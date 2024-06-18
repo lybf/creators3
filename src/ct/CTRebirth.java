@@ -27,6 +27,7 @@ import ct.ui.CT3ClassificationUi;
 import ct.ui.dialogs.CT3function;
 import mindustry.Vars;
 import mindustry.game.EventType;
+import mindustry.gen.Tex;
 import mindustry.graphics.Layer;
 import mindustry.mod.Mod;
 import mindustry.mod.Mods;
@@ -62,14 +63,6 @@ public class CTRebirth extends Mod {
         Vars.renderer.maxZoom = 32;
 //蓝图大小
         Vars.maxSchematicSize = 128;
-        //地图禁用建筑隐藏
-        Events.on(EventType.WorldLoadEvent.class, event -> {
-                    Vars.state.rules.hideBannedBlocks = true;
-
-                }
-        );
-        //
-
     }
 
     public void loadContent() {
@@ -80,6 +73,9 @@ public class CTRebirth extends Mod {
 
         // Team.sharded.color.set(0.0F, 153.0F, 255.0F, 64.0F);//黄队伍颜色
         //Team.crux.color.set(79.0F, 181.0F, 103.0F, 255.0F);//红队伍颜色
+        NewFx.load();
+        yuanban.load();
+
 
         //难度修改
         WorldDifficulty.init();//初始化难度buff
@@ -91,7 +87,6 @@ public class CTRebirth extends Mod {
 
         CTAttributes.load();
         Floors.load();
-        NewFx.load();
         CTR4Unit2.load();//敌对单位。改为通用单位，不限制在章节4了
         chapter1.load();
         chapter2.load();
@@ -124,7 +119,22 @@ public class CTRebirth extends Mod {
     public void init() {
         //显示怪物路径
         SpawnDraw.init();
-        SpawnDraw.setEnable(true);
+
+
+        if (Vars.mods.locateMod("cttd") == null) {
+            SpawnDraw.setEnable2(true, true, true);
+        } else {
+            SpawnDraw.setEnable2(true, false, true);
+            Events.on(EventType.ClientLoadEvent.class, e -> {//加载塔防时，显示一个信息提示
+                var dialog = new BaseDialog("");
+                dialog.cont.table(Tex.button, t -> {
+                    t.defaults().size(280, 160).left();
+                    t.add(Core.bundle.format("planet.CT.xinxi")).row();
+                    t.button("@close", (dialog::hide)).size(100, 64).center();//关闭按钮
+                });
+                dialog.show();
+            });
+        }
         //区块名显示
         Vars.ui.planet = new CT3PlanetDialog();
         //跳波惩罚
@@ -143,7 +153,7 @@ public class CTRebirth extends Mod {
             ImageButton imagebutton = CreatorsIcon("function", Styles.defaulti, CT3function.功能图标UI);
             Vars.ui.menuGroup.fill(t -> {
                 if (mobile) {
-                    t.add(imagebutton).update(b -> b.color.fromHsv(Time.time % 360, 1, 1)).size(50);//手机
+                    t.add(imagebutton).update(b -> b.color.fromHsv(Time.time % 360, 1, 1)).size(80);//手机
                     t.bottom();
                 } else {
                     t.add(imagebutton).update(b -> b.color.fromHsv(Time.time % 360, 1, 1)).size(120.0f);//电脑

@@ -27,7 +27,7 @@ public class  Wave {
             Element skip = Vars.ui.hudGroup.find("skip");
             if (Vars.state.isCampaign() && !enable) {
                 enable = true;
-                if (skip != null) {
+               // if (skip != null) {
                     skip.clicked(() -> {
 
                         float multiple = Float.parseFloat(Vars.state.rules.tags.get("增加敌对伤害生命倍率") == null ? "0.2" : Vars.state.rules.tags.get("增加敌对伤害生命倍率"));
@@ -38,7 +38,7 @@ public class  Wave {
                         Vars.state.rules.teams.get(Team.crux).unitHealthMultiplier = multiple;
                         showTips(displayTime, Core.bundle.get("warning.Wave") + String.format("%.2f", multiple * 10) + "%", Color.white, Color.red);
                     });
-                }
+                // }
 /*                else{
                     Events.on(EventType.ClientLoadEvent.class, e -> {
                         BaseDialog dialog = new BaseDialog("发现闪退风险");

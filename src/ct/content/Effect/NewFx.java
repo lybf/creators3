@@ -84,10 +84,28 @@ public class NewFx {
     /*////////////////////////////////////*/
     public static Effect D1, D2, D3, D4;
     public static Effect 制裁子弹消失, 灭亡子弹消失;
+    public static Effect 拖尾, 拖尾圈;
 
     public static void load() {
+        拖尾 = new Effect(50, e -> {
+            Draw.color(Color.valueOf("ab83f6ff"), e.color, e.fin());
+            Lines.stroke(e.fout() * 1 + 0.5f);
+            Angles.randLenVectors(e.id, 10, 100 * e.fin(), e.rotation, 5, (x, y) -> {
+                Lines.lineAngle(e.x + x, e.y + y, Mathf.angle(x, y), e.fslope() * 5 + 0.5f);
 
+            });
+            Draw.color(Color.valueOf("6dd8fe"), Color.valueOf("ab83f6ff"), e.fin());
+            Angles.randLenVectors(e.id, 5, 3.5f + e.fin() * 7, (x, y) -> {
+                Fill.circle(e.x + x, e.y + y, 0.1f + e.fout() * 1.4f);
+            });
+        });
+        拖尾圈 = new Effect(90f, 30f, e -> {
+            color(e.color);
+            stroke(e.fout() * 2f);
+            float circleRad = 4f + e.finpow() * 10f;
+            Lines.circle(e.x, e.y, circleRad);
 
+        });
         制裁子弹消失 = new Effect(14, e -> {
             color(Color.white, Pal.lightOrange, e.fin());
 

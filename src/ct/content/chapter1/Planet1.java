@@ -3,6 +3,7 @@ package ct.content.chapter1;
 import arc.Core;
 import arc.graphics.Color;
 import ct.Asystem.Evn2;
+import mindustry.Vars;
 import mindustry.game.Schematics;
 import mindustry.game.Team;
 import mindustry.graphics.g3d.HexMesh;
@@ -75,7 +76,7 @@ public class Planet1 {
                 r.coreDestroyClear = true;//死亡时(敌人)核心半径内的每个敌人方块都会被摧毁。
                 r.loadout = ItemStack.list(陶, 100);
 
-
+                r.hideBannedBlocks = true;//地图禁用建筑隐藏
                 r.waveTeam = Team.malis;
                 r.placeRangeCheck = false;
                 r.fog = true;

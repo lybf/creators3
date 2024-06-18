@@ -44,6 +44,7 @@ public class EU_healthDisplay {
             this.y = y;
             this.width = width;
             this.height = height;
+            display = false;
         }
 
 

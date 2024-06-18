@@ -64,10 +64,10 @@ Vars.ui.hudGroup.fill(cons(table => {
                 Reflect.invoke(Vars.ui.planet, "showStats", [Vars.state.getSector()], Sector);
             }
         }, null, "tongji"); //统计 
-    //   addButton(Icon.eye, Styles.clearTogglei, () => {
-    //         let c =  SpawnDraw.setEnable(true);
-    //         SpawnDraw.put(!c);
-    //     }, b => c, "NOFF"); // 寻路开关
+/*      addButton(Icon.eye, Styles.clearTogglei, () => {
+            let c =  SpawnDraw.setEnable(0,true);
+            SpawnDraw.put(!c);
+        }, b => SpawnDraw.setEnable(0,true), "NOFF"); // 寻路开关*/
         t.row();
         //加速条
         t.table(Styles.black6, speedTable => {

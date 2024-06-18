@@ -4,6 +4,7 @@ import arc.Core;
 import arc.graphics.Color;
 import ct.Asystem.type.CT3UnitType;
 import ct.Asystem.type.CTRepairBeamWeapon;
+import ct.Asystem.type.yuan;
 import mindustry.ai.UnitCommand;
 import mindustry.ai.types.BuilderAI;
 import mindustry.content.Fx;
@@ -16,6 +17,8 @@ import mindustry.graphics.Layer;
 import mindustry.graphics.Pal;
 import mindustry.type.UnitType;
 import mindustry.type.Weapon;
+
+import static ct.Asystem.type.CTColor.C;
 
 public class UnitNPC {
 
@@ -118,10 +121,10 @@ public class UnitNPC {
             hittable = true;//被子弹击中
             killable = true;//被杀死
             targetable = true;//被敌人瞄准
-            engineColor = Color.valueOf("e46ef5");//蓝色尾焰
+            engineColor = Color.valueOf("e46ef5");//尾焰
             //mineRange = 18*8f;//采矿范围
             // canAttack = false;//关闭单位的武器,功能性单位
-            abilities.add(new RepairFieldAbility(200f, 60f * 2, 5 * 8f));
+            abilities.add(new RepairFieldAbility(200f, 60f * 2, 5 * 8f), new yuan(30, 120, C("eb97ff")));
             weapons.add(new CTRepairBeamWeapon() {{
                 autoTarget = true;//被动开火
                 shootCone = 15;
@@ -161,7 +164,7 @@ public class UnitNPC {
             engineColor = Color.valueOf("e46ef5");
             //mineRange = 18*8f;//采矿范围
             // canAttack = false;//关闭单位的武器,功能性单位
-            abilities.add(new RepairFieldAbility(200f, 60f * 2, 5 * 8f));
+            abilities.add(new RepairFieldAbility(200f, 60f * 2, 5 * 8f), new yuan(30, 120, C("eb97ff")));
             weapons.add(new CTRepairBeamWeapon() {{
                 autoTarget = true;//被动开火
                 shootCone = 15;
@@ -213,6 +216,7 @@ public class UnitNPC {
             buildRange = 32 * 8F;//建造范围
             lightColor = Color.valueOf("0025ff");
             lightOpacity = 1;
+            abilities.add(new yuan(30, 120, C("97afff")));
             weapons.add(
                     new Weapon() {{
                         shoot.shots = 7;

@@ -1,4 +1,4 @@
-package ct.Asystem.type;
+package ct.Asystem.type.VXV;
 /*电力力场*/
 //神魂版
 

@@ -62,7 +62,7 @@ public class CT3UnitType {
             hittable = false;//被子弹击中
             killable = false;//被杀死
             targetable = false;//被敌人瞄准
-            physics = false;//单位碰撞
+            physics = true;//单位碰撞
             flying = true;
             speed = 2f;
             engineOffset = 3f;

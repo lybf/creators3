@@ -19,7 +19,7 @@ import mindustry.world.blocks.distribution.MassDriver;
 import static arc.graphics.g2d.Draw.color;
 import static ct.Asystem.type.CTColor.C;
 import static mindustry.Vars.world;
-
+//质驱连接的激光效果
 public class LaserMassDriver extends MassDriver {
     public float 圆环间隔 = 32 * 2f;//改大就间隔更小, 改小就间隔更大
     public float 圆环大小 = 0.8f;

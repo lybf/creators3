@@ -1,7 +1,7 @@
 package ct.content.chapter4;
 
 import arc.graphics.Color;
-import ct.Asystem.type.CreatorsPowerField;
+import ct.Asystem.type.VXV.CreatorsPowerField;
 import ct.Asystem.type.MultiCrafter.CT3_MultiCrafter;
 import ct.Asystem.type.MultiCrafter.CreatorsRecipe;
 import mindustry.content.Fx;
